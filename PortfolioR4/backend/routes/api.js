@@ -60,9 +60,12 @@ api.post("/auth/login", rateLimit({ windowMs: 15 * 60000, limit: 10 }), async (r
   const { data: admin, error } = await getServerSupabase()
     .from("admins")
     .select("id, password_hash")
-    .eq("id", 1)
+    .order("id", { ascending: true })
+    .limit(1)
     .maybeSingle();
-  if (error || !admin) return res.status(401).json({ error: "Credenciales inválidas." });
+  if (error) throw error;
+  if (!admin || typeof admin.password_hash !== "string")
+    return res.status(503).json({ error: "El administrador no está configurado." });
   const valid = await bcrypt.compare(password, admin.password_hash);
   if (!valid) return res.status(401).json({ error: "Credenciales inválidas." });
   await createAdminSession(res, admin.id);
