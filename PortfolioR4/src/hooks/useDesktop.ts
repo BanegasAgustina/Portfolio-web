@@ -18,9 +18,9 @@ export function useWindowManager() {
     minimized: WindowId[];
     stack: WindowId[];
   }>({
-    windows: ["about", "projects"],
+    windows: [],
     minimized: [],
-    stack: ["projects", "about"],
+    stack: [],
   });
   // Iconos, menú y barra comparten la misma acción de abrir/restaurar.
   const open = useCallback((id: WindowId) => {
