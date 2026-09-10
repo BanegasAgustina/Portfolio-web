@@ -21,13 +21,11 @@ export async function createAdminSession(res, adminId) {
     data: JSON.stringify({ adminId }),
   });
   if (error) throw new Error("No se pudo iniciar la sesión.");
-  res.cookie(cookieName, sessionId, {
-    httpOnly: true,
-    sameSite: "lax",
-    secure: process.env.NODE_ENV === "production",
-    maxAge: sessionDuration,
-    path: "/",
-  });
+  const secure = process.env.NODE_ENV === "production" ? "; Secure" : "";
+  res.setHeader(
+    "Set-Cookie",
+    `${cookieName}=${sessionId}; Max-Age=${sessionDuration / 1000}; Path=/; HttpOnly; SameSite=Lax${secure}`,
+  );
 }
 
 export async function destroyAdminSession(req, res) {
@@ -38,7 +36,10 @@ export async function destroyAdminSession(req, res) {
       .delete()
       .eq("session_id", sessionId);
   }
-  res.clearCookie(cookieName, { httpOnly: true, sameSite: "lax", path: "/" });
+  res.setHeader(
+    "Set-Cookie",
+    `${cookieName}=; Max-Age=0; Path=/; HttpOnly; SameSite=Lax`,
+  );
 }
 
 export async function requireAdmin(req, res, next) {
@@ -61,4 +62,3 @@ export async function requireAdmin(req, res, next) {
   req.admin = JSON.parse(data.data);
   return next();
 }
-
