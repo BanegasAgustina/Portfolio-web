@@ -23,10 +23,15 @@ app.use(
 );
 app.use(express.json({ limit: "100kb" }));
 app.use("/api", (req, res, next) => {
+  const origin = req.get("origin");
+  const requestOrigin = `${req.protocol}://${req.get("host")}`;
+  const allowedOrigins = [process.env.FRONTEND_URL, requestOrigin].filter(
+    Boolean,
+  );
   if (
     !["GET", "HEAD", "OPTIONS"].includes(req.method) &&
-    process.env.FRONTEND_URL &&
-    req.get("origin") !== process.env.FRONTEND_URL
+    origin &&
+    !allowedOrigins.includes(origin)
   )
     return res.status(403).json({ error: "Origen no permitido." });
   next();
