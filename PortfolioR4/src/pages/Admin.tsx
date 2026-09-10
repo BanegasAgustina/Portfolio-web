@@ -1,6 +1,6 @@
 import { useEffect, useState, type FormEvent } from "react";
 import { Link } from "react-router-dom";
-import avatar from "../assets/img/avatar-seccion-sobre mi.png";
+import waving from "../assets/img/icono saludando.png";
 import Window from "../components/Window";
 import Icon from "../components/Icon";
 import Editor from "../components/admin/Editor";
@@ -161,23 +161,31 @@ export default function Admin() {
   return (
     <main className="admin-page">
       <header className="admin-header">
-        <h1>⊞ Mi portfolio · Administración</h1>
+        <div className="admin-brand">
+          <img
+            className="admin-avatar"
+            src={waving}
+            alt="Agustina saludando"
+          />
+          <h1>Administración del Portfolio</h1>
+        </div>
         <Link to="/">← Volver al escritorio</Link>
       </header>
       {auth === null ? (
-        <Window title="Administrador del Portfolio" icon="about">
+        <Window title="Administración del Portfolio" icon="tools">
           <p className="content-pad">Comprobando sesión...</p>
         </Window>
       ) : !auth ? (
         <Window
-          title="Administrador del Portfolio"
-          icon="about"
+          title="Iniciar sesión"
+          icon="tools"
           className="login-window"
         >
           <form className="login-form" onSubmit={login}>
-            <img src={avatar} alt="Avatar de Agustina" />
-            <h2>Bienvenida a tu escritorio</h2>
-            <p>Iniciá sesión para administrar tu portfolio.</p>
+            <div className="login-intro">
+              <Icon name="tools" size={32} />
+              <p>Iniciá sesión para acceder a la administración del portfolio.</p>
+            </div>
             <label>
               Email
               <input
@@ -185,6 +193,7 @@ export default function Admin() {
                 type="email"
                 autoComplete="username"
                 required
+                autoFocus
               />
             </label>
             <label>
@@ -202,9 +211,14 @@ export default function Admin() {
                 {notice}
               </p>
             )}
-            <button className="primary" disabled={busy}>
-              {busy ? "Iniciando sesión..." : "Iniciar sesión →"}
-            </button>
+            <div className="login-actions">
+              <button type="submit" className="primary" disabled={busy}>
+                {busy ? "Iniciando sesión..." : "Iniciar sesión"}
+              </button>
+              <Link to="/" className="cancel-link">
+                Cancelar
+              </Link>
+            </div>
           </form>
         </Window>
       ) : (
