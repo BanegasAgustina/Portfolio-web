@@ -32,6 +32,8 @@ app.use("/api", (req, res, next) => {
   next();
 });
 app.use("/api", api);
+// Vercel puede entregar la ruta sin el prefijo /api a la función serverless.
+app.use(api);
 app.use("/api", (_req, res) =>
   res.status(404).json({ error: "Ruta no encontrada." }),
 );
