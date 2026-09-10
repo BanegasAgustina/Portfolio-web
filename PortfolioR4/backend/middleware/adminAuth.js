@@ -13,19 +13,38 @@ function getSessionId(req) {
 }
 
 export async function createAdminSession(res, adminId) {
+  console.log("[LOGIN] 9 before session creation");
   const sessionId = crypto.randomBytes(32).toString("hex");
   const expiresAt = Date.now() + sessionDuration;
-  const { error } = await getServerSupabase().from("admin_sessions").insert({
+  const { data, error } = await getServerSupabase()
+    .from("admin_sessions")
+    .insert({
     session_id: sessionId,
     expires_at: expiresAt,
     data: JSON.stringify({ adminId }),
+    })
+    .select("session_id");
+  console.log("[LOGIN] session insert result", {
+    hasData: Boolean(data),
+    hasError: Boolean(error),
+    errorCode: error?.code,
+    errorMessage: error?.message,
   });
-  if (error) throw new Error("No se pudo iniciar la sesión.");
+  if (error) {
+    console.error("[LOGIN] SESSION ERROR", {
+      message: error.message,
+      code: error.code,
+      details: error.details,
+      hint: error.hint,
+    });
+    throw error;
+  }
   const secure = process.env.NODE_ENV === "production" ? "; Secure" : "";
   res.setHeader(
     "Set-Cookie",
     `${cookieName}=${sessionId}; Max-Age=${sessionDuration / 1000}; Path=/; HttpOnly; SameSite=Lax${secure}`,
   );
+  console.log("[LOGIN] 10 session created");
 }
 
 export async function destroyAdminSession(req, res) {

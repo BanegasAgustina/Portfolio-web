@@ -54,35 +54,54 @@ api.post(
 );
 
 api.post("/auth/login", rateLimit({ windowMs: 15 * 60000, limit: 10 }), async (req, res) => {
+  console.log("[LOGIN] 1 request received");
   const password = req.body?.password;
+  console.log("[LOGIN] 2 body parsed", {
+    hasPassword: Boolean(password),
+    passwordType: typeof password,
+  });
   if (typeof password !== "string" || !password || password.length > 128)
     return res.status(400).json({ error: "Ingresá una contraseña válida." });
   let stage = "supabase";
   try {
-    const { data: admin, error } = await getServerSupabase()
+    console.log("[LOGIN] 3 getting Supabase client");
+    const supabase = getServerSupabase();
+    console.log("[LOGIN] 4 querying admins");
+    const { data: admin, error } = await supabase
       .from("admins")
       .select("id, password_hash")
-      .order("id", { ascending: true })
-      .limit(1)
-      .maybeSingle();
+      .eq("id", 1)
+      .single();
+    console.log("[LOGIN] 5 admin query result", {
+      hasAdmin: Boolean(admin),
+      hasHash: Boolean(admin?.password_hash),
+      hasError: Boolean(error),
+      errorCode: error?.code,
+    });
     if (error) throw error;
     if (!admin || typeof admin.password_hash !== "string")
       return res
         .status(503)
         .json({ error: "El administrador no está configurado." });
+    console.log("[LOGIN] 6 before bcrypt");
     stage = "bcrypt";
     const valid = await bcrypt.compare(password, admin.password_hash);
+    console.log("[LOGIN] 7 bcrypt result", { validPassword: valid });
     if (!valid) return res.status(401).json({ error: "Credenciales inválidas." });
+    console.log("[LOGIN] 8 password validated");
     stage = "session";
     await createAdminSession(res, admin.id);
+    console.log("[LOGIN] 11 login completed");
     return res.json({ authenticated: true });
   } catch (error) {
     console.error("Admin login failed:", {
       stage,
       message: error?.message,
+      name: error?.name,
       code: error?.code,
       details: error?.details,
       hint: error?.hint,
+      stack: error?.stack,
     });
     throw error;
   }
