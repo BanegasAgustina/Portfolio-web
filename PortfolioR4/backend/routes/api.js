@@ -56,7 +56,7 @@ api.post(
 api.post("/auth/login", rateLimit({ windowMs: 15 * 60000, limit: 10 }), async (req, res) => {
   const password = req.body?.password;
   if (typeof password !== "string" || !password || password.length > 128)
-    return res.status(401).json({ error: "Credenciales inválidas." });
+    return res.status(400).json({ error: "Ingresá una contraseña válida." });
   const { data: admin, error } = await getServerSupabase()
     .from("admins")
     .select("id, password_hash")

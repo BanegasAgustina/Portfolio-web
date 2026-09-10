@@ -46,15 +46,22 @@ app.use(express.static(frontendDist));
 app.get("/{*path}", (_req, res) =>
   res.sendFile(path.join(frontendDist, "index.html")),
 );
-app.use((error, _req, res, _next) =>
-  res
-    .status(error.status || 503)
-    .json({
-      error: error.status
-        ? error.message
-        : "Servicio no disponible. Intentá nuevamente.",
-    }),
-);
+app.use((error, req, res, _next) => {
+  console.error("API error:", {
+    method: req.method,
+    path: req.path,
+    message: error?.message,
+    code: error?.code,
+    status: error?.status,
+  });
+  const status = error.status || 500;
+  res.status(status).json({
+    error:
+      status === 503
+        ? "Servicio no disponible. Intentá nuevamente."
+        : "No se pudo completar la operación.",
+  });
+});
 if (!process.env.VERCEL)
   app.listen(
     Number(process.env.PORT || 3001),
