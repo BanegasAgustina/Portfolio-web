@@ -6,7 +6,6 @@ import Icon from "../components/Icon";
 import Editor from "../components/admin/Editor";
 import ConfirmDialog from "../components/admin/ConfirmDialog";
 import { sections } from "../components/admin/fields";
-import { supabase } from "../services/supabaseClient";
 import { api, send } from "../services/api";
 import type { RecordData } from "../types";
 import { useTheme } from "../context/theme";
@@ -44,15 +43,8 @@ export default function Admin() {
           }
         });
     void refresh();
-    const subscription = supabase?.auth.onAuthStateChange(() => {
-      // Evita bloquear el callback de Auth con nuevas consultas del cliente.
-      queueMicrotask(() => {
-        if (!cancelled) void refresh();
-      });
-    }).data.subscription;
     return () => {
       cancelled = true;
-      subscription?.unsubscribe();
     };
   }, []);
   useEffect(() => {
@@ -90,10 +82,9 @@ export default function Admin() {
     setBusy(true);
     setNotice("");
     const form = new FormData(e.currentTarget);
-    const email = String(form.get("email") || "");
     const password = String(form.get("password") || "");
     try {
-      await api("/auth/login", send("POST", { email, password }));
+      await api("/auth/login", send("POST", { password }));
       setAuth(true);
     } catch (error) {
       setNotice((error as Error).message);
@@ -186,16 +177,6 @@ export default function Admin() {
               <Icon name="tools" size={32} />
               <p>Iniciá sesión para acceder a la administración del portfolio.</p>
             </div>
-            <label>
-              Email
-              <input
-                name="email"
-                type="email"
-                autoComplete="username"
-                required
-                autoFocus
-              />
-            </label>
             <label>
               Contraseña
               <input

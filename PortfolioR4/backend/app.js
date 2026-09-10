@@ -48,9 +48,12 @@ app.use((error, _req, res, _next) =>
         : "Servicio no disponible. Intentá nuevamente.",
     }),
 );
-app.listen(
-  Number(process.env.PORT || 3001),
-  process.env.HOST ||
-    (process.env.NODE_ENV === "production" ? "0.0.0.0" : "127.0.0.1"),
-  () => console.log("Servidor opcional del portfolio iniciado."),
-);
+if (!process.env.VERCEL)
+  app.listen(
+    Number(process.env.PORT || 3001),
+    process.env.HOST ||
+      (process.env.NODE_ENV === "production" ? "0.0.0.0" : "127.0.0.1"),
+    () => console.log("Servidor opcional del portfolio iniciado."),
+  );
+
+export default app;
