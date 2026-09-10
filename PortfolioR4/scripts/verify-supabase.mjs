@@ -7,7 +7,7 @@ const url = process.env.VITE_SUPABASE_URL,
 if (!url || !key)
   throw new Error(
     "Pendiente: crear Supabase y completar .env antes de verificar la conexión real.",
-  );//HOLA
+  );
 const options = { auth: { persistSession: false, autoRefreshToken: false } };
 const publicClient = createClient(url, key, options);
 for (const table of [
