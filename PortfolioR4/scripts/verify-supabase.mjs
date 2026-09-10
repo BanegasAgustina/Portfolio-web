@@ -8,6 +8,7 @@ if (!url || !key)
   throw new Error(
     "Pendiente: crear Supabase y completar .env antes de verificar la conexión real.",
   );
+  // Se desactiva la persistencia de sesión y la renovación automática de tokens para pruebas de lectura pública.
 const options = { auth: { persistSession: false, autoRefreshToken: false } };
 const publicClient = createClient(url, key, options);
 for (const table of [
