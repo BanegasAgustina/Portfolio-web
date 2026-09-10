@@ -450,10 +450,6 @@
     left: 0;
     right: auto;
   }
-  .start-menu {
-    max-height: calc(100dvh - 44px);
-    overflow: auto;
-  }
 }
 
 .workspace > .xp-window.moved:not(.maximized) {

@@ -1,5 +1,4 @@
-import { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 import waving from "../assets/img/icono saludando.png";
 import schoolLogo from "../assets/img/Logo escuela.png";
 import companyLogo from "../assets/img/Logo_Nucleo_rojo-blanco.png";
@@ -29,12 +28,10 @@ export default function Desktop() {
   const [data, setData] = useState<Portfolio | null>(null),
     [error, setError] = useState(""),
     [attempt, setAttempt] = useState(0),
-    [start, setStart] = useState(false),
     [more, setMore] = useState(false);
   const manager = useWindowManager(),
     clock = useClock(),
-    theme = useTheme(),
-    menu = useRef<HTMLDivElement>(null);
+    theme = useTheme();
   // Cancelar la actualización evita escribir sobre un componente desmontado.
   useEffect(() => {
     let cancelled = false;
@@ -58,25 +55,8 @@ export default function Desktop() {
       window.removeEventListener("portfolio-content-changed", load);
     };
   }, [attempt]);
-  // useRef permite detectar clics fuera del menú sin buscar nodos globalmente.
-  useEffect(() => {
-    const close = (e: PointerEvent) => {
-      if (menu.current && !menu.current.contains(e.target as Node))
-        setStart(false);
-    };
-    const key = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setStart(false);
-    };
-    document.addEventListener("pointerdown", close);
-    document.addEventListener("keydown", key);
-    return () => {
-      document.removeEventListener("pointerdown", close);
-      document.removeEventListener("keydown", key);
-    };
-  }, []);
   const open = (id: WindowId) => {
     manager.open(id);
-    setStart(false);
     // Esperamos el próximo dibujo de React para enfocar la ventana recién abierta.
     requestAnimationFrame(() => {
       const element = document.getElementById(`window-${id}`);
@@ -323,94 +303,42 @@ export default function Desktop() {
         <p>¡Abrí las carpetas o explorá el portfolio!</p>
         <span>:)</span>
       </aside>
-      <div ref={menu}>
-        {start && (
-          <nav className="start-menu" aria-label="Menú Inicio">
-            <header>
-              <img src={avatar} alt="" />
-              <div>
-                {String(data?.profile.name || "Mi portfolio")}
-                <small>Mi espacio en la web</small>
-              </div>
-            </header>
-            <div className="start-columns">
-              <div>
-                {(
-                  [
-                    "about",
-                    "projects",
-                    "tools",
-                    "skills",
-                    "contact",
-                    "notes",
-                  ] as WindowId[]
-                ).map((id) => (
-                  <button key={id} onClick={() => open(id)}>
-                    <Icon name={id} size={27} />
-                    {titles[id]}
-                  </button>
-                ))}
-              </div>
-              <div>
-                {(["experience", "education"] as WindowId[]).map((id) => (
-                  <button key={id} onClick={() => open(id)}>
-                    {titles[id]}
-                  </button>
-                ))}
-                {data && <SocialLinks links={data.social_links} />}
-                <button onClick={theme.toggle}>
-                  {theme.dark ? "☀ XP Light" : "☾ XP Dark"}
-                </button>
-                <Link to="/admin">⚙ Administración</Link>
-              </div>
-            </div>
-            <footer>Un portfolio con espíritu XP.</footer>
-          </nav>
-        )}
-        <footer className="taskbar">
-          <button
-            className="start-button"
-            aria-expanded={start}
-            onClick={() => setStart((v) => !v)}
-          >
-            <span>⊞</span> inicio
-          </button>
-          <div className="task-buttons">
-            {manager.windows.map((id) => (
-              <button
-                key={id}
-                aria-label={titles[id]}
-                className={
-                  manager.active === id && !manager.minimized.includes(id)
-                    ? "current"
-                    : ""
-                }
-                onClick={() =>
-                  manager.minimized.includes(id) || manager.active !== id
-                    ? open(id)
-                    : manager.minimize(id)
-                }
-              >
-                <Icon name={id} size={19} />
-                <span>{titles[id]}</span>
-              </button>
-            ))}
-          </div>
-          <div className="system-tray">
+      <footer className="taskbar">
+        <div className="task-buttons">
+          {manager.windows.map((id) => (
             <button
-              onClick={theme.toggle}
-              aria-label={
-                theme.dark ? "Activar modo claro" : "Activar modo oscuro"
+              key={id}
+              aria-label={titles[id]}
+              className={
+                manager.active === id && !manager.minimized.includes(id)
+                  ? "current"
+                  : ""
+              }
+              onClick={() =>
+                manager.minimized.includes(id) || manager.active !== id
+                  ? open(id)
+                  : manager.minimize(id)
               }
             >
-              {theme.dark ? "☀" : "☾"}
+              <Icon name={id} size={19} />
+              <span>{titles[id]}</span>
             </button>
-            <span>ES</span>
-            <span aria-hidden="true">◉</span>
-            <time>{clock}</time>
-          </div>
-        </footer>
-      </div>
+          ))}
+        </div>
+        <div className="system-tray">
+          <button
+            onClick={theme.toggle}
+            aria-label={
+              theme.dark ? "Activar modo claro" : "Activar modo oscuro"
+            }
+          >
+            {theme.dark ? "☀" : "☾"}
+          </button>
+          <span>ES</span>
+          <span aria-hidden="true">◉</span>
+          <time>{clock}</time>
+        </div>
+      </footer>
     </main>
   );
 }
