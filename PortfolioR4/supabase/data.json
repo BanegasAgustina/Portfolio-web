@@ -1,0 +1,411 @@
+{
+  "profile": {
+    "id": 1,
+    "name": "Silvia Agustina Banegas",
+    "role": "Estudiante de Informática / Desarrolladora Web",
+    "description": "Soy estudiante de informática, interesada en el desarrollo web, los sistemas y la creación de soluciones tecnológicas. Me gusta aprender nuevas herramientas, resolver problemas y participar en proyectos donde pueda combinar programación, diseño y organización.",
+    "tagline": "Aprendiendo, creando y desarrollando una idea a la vez.",
+    "location": "Mar del Plata, Buenos Aires, Argentina.",
+    "avatar": "",
+    "cv": "",
+    "phone": "",
+    "show_phone": false
+  },
+  "projects": [
+    {
+      "id": 1,
+      "title": "Portfolio personal Windows XP",
+      "description": "Portfolio de una sola página con ventanas interactivas y contenido gestionado en Supabase.",
+      "full_description": "Aplicación React con escritorio Windows XP, ventanas arrastrables y minimizables, filtros de proyectos y panel administrador. La persistencia está preparada para Supabase PostgreSQL, Auth y Storage; pendiente de conectar el proyecto en la nube.",
+      "image": "",
+      "category": "Full Stack",
+      "date": "",
+      "status": "En desarrollo",
+      "github": "",
+      "demo": "",
+      "is_featured": true,
+      "display_order": 0,
+      "technologies": [
+        "React",
+        "TypeScript",
+        "CSS",
+        "Supabase",
+        "Vite"
+      ]
+    }
+  ],
+  "skills": [
+    {
+      "id": 1,
+      "name": "HTML",
+      "category": "Desarrollo web",
+      "description": "Estructura semántica de páginas web.",
+      "level": "",
+      "icon": "",
+      "display_order": 0
+    },
+    {
+      "id": 2,
+      "name": "CSS",
+      "category": "Desarrollo web",
+      "description": "Estilos, animaciones y diseños adaptables.",
+      "level": "",
+      "icon": "",
+      "display_order": 1
+    },
+    {
+      "id": 3,
+      "name": "JavaScript",
+      "category": "Desarrollo web",
+      "description": "Interactividad y lógica de aplicaciones web.",
+      "level": "",
+      "icon": "",
+      "display_order": 2
+    },
+    {
+      "id": 4,
+      "name": "React",
+      "category": "Desarrollo web",
+      "description": "Creación de interfaces web mediante componentes.",
+      "level": "",
+      "icon": "",
+      "display_order": 3
+    },
+    {
+      "id": 5,
+      "name": "Node.js",
+      "category": "Desarrollo web",
+      "description": "Desarrollo de servicios y aplicaciones de servidor.",
+      "level": "",
+      "icon": "",
+      "display_order": 4
+    },
+    {
+      "id": 6,
+      "name": "Express",
+      "category": "Desarrollo web",
+      "description": "Creación de rutas y APIs para aplicaciones web.",
+      "level": "",
+      "icon": "",
+      "display_order": 5
+    },
+    {
+      "id": 7,
+      "name": "Vite",
+      "category": "Desarrollo web",
+      "description": "Desarrollo y compilación de aplicaciones frontend.",
+      "level": "",
+      "icon": "",
+      "display_order": 6
+    },
+    {
+      "id": 8,
+      "name": "MySQL",
+      "category": "Bases de datos",
+      "description": "Creación y administración de bases de datos relacionales.",
+      "level": "",
+      "icon": "",
+      "display_order": 7
+    },
+    {
+      "id": 9,
+      "name": "SQL",
+      "category": "Bases de datos",
+      "description": "Consultas y manipulación de datos relacionales.",
+      "level": "",
+      "icon": "",
+      "display_order": 8
+    },
+    {
+      "id": 10,
+      "name": "Supabase",
+      "category": "Bases de datos",
+      "description": "Servicios de datos e integración para aplicaciones.",
+      "level": "",
+      "icon": "",
+      "display_order": 9
+    },
+    {
+      "id": 11,
+      "name": "Git",
+      "category": "Control de versiones",
+      "description": "Control de versiones de proyectos.",
+      "level": "",
+      "icon": "",
+      "display_order": 10
+    },
+    {
+      "id": 12,
+      "name": "GitHub",
+      "category": "Control de versiones",
+      "description": "Repositorios y colaboración en proyectos.",
+      "level": "",
+      "icon": "",
+      "display_order": 11
+    },
+    {
+      "id": 13,
+      "name": "Visual Studio Code",
+      "category": "Herramientas de desarrollo",
+      "description": "Edición y organización del código.",
+      "level": "",
+      "icon": "",
+      "display_order": 12
+    },
+    {
+      "id": 14,
+      "name": "XAMPP",
+      "category": "Herramientas de desarrollo",
+      "description": "Entornos de desarrollo local.",
+      "level": "",
+      "icon": "",
+      "display_order": 13
+    },
+    {
+      "id": 15,
+      "name": "Postman",
+      "category": "Herramientas de desarrollo",
+      "description": "Pruebas de endpoints y APIs.",
+      "level": "",
+      "icon": "",
+      "display_order": 14
+    },
+    {
+      "id": 16,
+      "name": "Figma",
+      "category": "Herramientas de desarrollo",
+      "description": "Diseño de interfaces y prototipos.",
+      "level": "",
+      "icon": "",
+      "display_order": 15
+    },
+    {
+      "id": 17,
+      "name": "Canva",
+      "category": "Herramientas de desarrollo",
+      "description": "Creación de recursos gráficos.",
+      "level": "",
+      "icon": "",
+      "display_order": 16
+    },
+    {
+      "id": 18,
+      "name": "Windows",
+      "category": "Sistemas y soporte",
+      "description": "Uso y configuración del sistema operativo.",
+      "level": "",
+      "icon": "",
+      "display_order": 17
+    },
+    {
+      "id": 19,
+      "name": "Linux básico",
+      "category": "Sistemas y soporte",
+      "description": "Uso básico del sistema operativo Linux.",
+      "level": "",
+      "icon": "",
+      "display_order": 18
+    },
+    {
+      "id": 20,
+      "name": "Instalación de sistemas operativos",
+      "category": "Sistemas y soporte",
+      "description": "Instalación y puesta en marcha de sistemas.",
+      "level": "",
+      "icon": "",
+      "display_order": 19
+    },
+    {
+      "id": 21,
+      "name": "Configuración básica de programas",
+      "category": "Sistemas y soporte",
+      "description": "Instalación y configuración de programas.",
+      "level": "",
+      "icon": "",
+      "display_order": 20
+    },
+    {
+      "id": 22,
+      "name": "Mantenimiento básico de PC",
+      "category": "Sistemas y soporte",
+      "description": "Tareas básicas de mantenimiento de computadoras.",
+      "level": "",
+      "icon": "",
+      "display_order": 21
+    },
+    {
+      "id": 23,
+      "name": "Formateo",
+      "category": "Sistemas y soporte",
+      "description": "Preparación y formateo de equipos.",
+      "level": "",
+      "icon": "",
+      "display_order": 22
+    },
+    {
+      "id": 24,
+      "name": "Limpieza de archivos",
+      "category": "Sistemas y soporte",
+      "description": "Organización y limpieza de archivos.",
+      "level": "",
+      "icon": "",
+      "display_order": 23
+    },
+    {
+      "id": 25,
+      "name": "Soporte técnico básico",
+      "category": "Sistemas y soporte",
+      "description": "Asistencia básica en problemas de equipos y programas.",
+      "level": "",
+      "icon": "",
+      "display_order": 24
+    },
+    {
+      "id": 26,
+      "name": "Microsoft Word",
+      "category": "Ofimática",
+      "description": "Redacción y formato de documentos.",
+      "level": "",
+      "icon": "",
+      "display_order": 25
+    },
+    {
+      "id": 27,
+      "name": "Microsoft Excel",
+      "category": "Ofimática",
+      "description": "Organización de datos en hojas de cálculo.",
+      "level": "",
+      "icon": "",
+      "display_order": 26
+    },
+    {
+      "id": 28,
+      "name": "Microsoft PowerPoint",
+      "category": "Ofimática",
+      "description": "Creación de presentaciones.",
+      "level": "",
+      "icon": "",
+      "display_order": 27
+    },
+    {
+      "id": 29,
+      "name": "Google Drive",
+      "category": "Herramientas online",
+      "description": "Organización y colaboración con archivos online.",
+      "level": "",
+      "icon": "",
+      "display_order": 28
+    },
+    {
+      "id": 30,
+      "name": "Correo electrónico",
+      "category": "Herramientas online",
+      "description": "Comunicación y organización del correo.",
+      "level": "",
+      "icon": "",
+      "display_order": 29
+    },
+    {
+      "id": 31,
+      "name": "Navegación web",
+      "category": "Herramientas online",
+      "description": "Búsqueda y consulta de información.",
+      "level": "",
+      "icon": "",
+      "display_order": 30
+    },
+    {
+      "id": 32,
+      "name": "Inteligencia Artificial",
+      "category": "Inteligencia artificial",
+      "description": "Uso de herramientas de IA para desarrollo, generación de ideas, documentación, asistencia de programación y productividad.",
+      "level": "",
+      "icon": "",
+      "display_order": 31
+    }
+  ],
+  "experiences": [
+    {
+      "id": 1,
+      "title": "Desarrolladora Web - Prácticas Profesionalizantes",
+      "organization": "Grupo Núcleo",
+      "description": "Participación en prácticas profesionalizantes orientadas al desarrollo de soluciones web para Grupo Núcleo, trabajando en proyectos reales y aplicando conocimientos de frontend, backend, bases de datos, APIs e integración de servicios.",
+      "date": "",
+      "status": "Actualidad",
+      "display_order": 0
+    }
+  ],
+  "education": [
+    {
+      "id": 1,
+      "title": "Tecnicatura en Informática Personal y Profesional",
+      "organization": "EEST N°5 \"Amancio Williams\"",
+      "description": "Estudiante de 7° año de la Tecnicatura en Informática Personal y Profesional.",
+      "location": "Mar del Plata",
+      "date": "",
+      "status": "En curso",
+      "display_order": 0
+    }
+  ],
+  "social_links": [
+    {
+      "id": 1,
+      "name": "GitHub",
+      "url": "https://github.com/BanegasAgustina",
+      "display_order": 0
+    },
+    {
+      "id": 2,
+      "name": "LinkedIn",
+      "url": "https://www.linkedin.com/in/agustina-banegas-33418a370/",
+      "display_order": 1
+    }
+  ],
+  "soft_skills": [
+    {
+      "id": 1,
+      "name": "Autodidacta",
+      "display_order": 0
+    },
+    {
+      "id": 2,
+      "name": "Aprendizaje rápido",
+      "display_order": 1
+    },
+    {
+      "id": 3,
+      "name": "Organización",
+      "display_order": 2
+    },
+    {
+      "id": 4,
+      "name": "Responsabilidad",
+      "display_order": 3
+    },
+    {
+      "id": 5,
+      "name": "Proactividad",
+      "display_order": 4
+    },
+    {
+      "id": 6,
+      "name": "Adaptación",
+      "display_order": 5
+    },
+    {
+      "id": 7,
+      "name": "Trabajo en equipo",
+      "display_order": 6
+    },
+    {
+      "id": 8,
+      "name": "Resolución de problemas",
+      "display_order": 7
+    },
+    {
+      "id": 9,
+      "name": "Comunicación",
+      "display_order": 8
+    }
+  ]
+}

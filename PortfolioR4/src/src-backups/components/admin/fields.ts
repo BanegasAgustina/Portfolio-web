@@ -50,8 +50,8 @@ export const fields: Record<string, Field[]> = {
     { key: "avatar", label: "Avatar", type: "image" },
     {
       key: "cv",
-      label: "URL del CV público (revisá su privacidad antes de publicarlo)",
-      type: "url",
+      label: "CV público: /cv/archivo.pdf o URL (revisá su privacidad)",
+      type: "text",
     },
     { key: "phone", label: "Teléfono (privado si no lo activás)", max: 40 },
     {

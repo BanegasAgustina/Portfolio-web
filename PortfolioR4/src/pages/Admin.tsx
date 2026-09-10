@@ -6,6 +6,7 @@ import Icon from "../components/Icon";
 import Editor from "../components/admin/Editor";
 import ConfirmDialog from "../components/admin/ConfirmDialog";
 import { sections } from "../components/admin/fields";
+import { supabase } from "../services/supabaseClient";
 import { api, send } from "../services/api";
 import type { RecordData } from "../types";
 import { useTheme } from "../context/theme";
@@ -23,12 +24,36 @@ export default function Admin() {
     [loadError, setLoadError] = useState("");
   const theme = useTheme();
   useEffect(() => {
-    api<{ authenticated: boolean }>("/auth/me")
-      .then((v) => setAuth(v.authenticated))
-      .catch((e) => {
-        setNotice(e.message);
-        setAuth(false);
+    let cancelled = false;
+    const refresh = () =>
+      api<{ authenticated: boolean }>("/auth/me")
+        .then((v) => {
+          if (!cancelled) {
+            setAuth(v.authenticated);
+            if (!v.authenticated) {
+              setRows([]);
+              setEditing(null);
+              setSelectedMessage(null);
+            }
+          }
+        })
+        .catch((e) => {
+          if (!cancelled) {
+            setNotice(e.message);
+            setAuth(false);
+          }
+        });
+    void refresh();
+    const subscription = supabase?.auth.onAuthStateChange(() => {
+      // Evita bloquear el callback de Auth con nuevas consultas del cliente.
+      queueMicrotask(() => {
+        if (!cancelled) void refresh();
       });
+    }).data.subscription;
+    return () => {
+      cancelled = true;
+      subscription?.unsubscribe();
+    };
   }, []);
   useEffect(() => {
     if (!auth || ["dashboard", "settings"].includes(section)) return;
@@ -64,9 +89,11 @@ export default function Admin() {
     e.preventDefault();
     setBusy(true);
     setNotice("");
-    const password = new FormData(e.currentTarget).get("password");
+    const form = new FormData(e.currentTarget);
+    const email = String(form.get("email") || "");
+    const password = String(form.get("password") || "");
     try {
-      await api("/auth/login", send("POST", { password }));
+      await api("/auth/login", send("POST", { email, password }));
       setAuth(true);
     } catch (error) {
       setNotice((error as Error).message);
@@ -77,9 +104,9 @@ export default function Admin() {
   async function logout() {
     setBusy(true);
     try {
-        await api("/auth/logout", send("POST"));
-        setAuth(false);
-        setNotice("");
+      await api("/auth/logout", send("POST"));
+      setAuth(false);
+      setNotice("");
       setSection("dashboard");
       setRows([]);
       setEditing(null);
@@ -151,6 +178,15 @@ export default function Admin() {
             <img src={avatar} alt="Avatar de Agustina" />
             <h2>Bienvenida a tu escritorio</h2>
             <p>Iniciá sesión para administrar tu portfolio.</p>
+            <label>
+              Email
+              <input
+                name="email"
+                type="email"
+                autoComplete="username"
+                required
+              />
+            </label>
             <label>
               Contraseña
               <input

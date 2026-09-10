@@ -1,87 +1,34 @@
-import { useState, type FormEvent } from "react";
 import type { RecordData } from "../types";
 import SocialLinks from "./SocialLinks";
-import { api, send } from "../services/api";
-export default function Contact({ links }: { links: RecordData[] }) {
-  const [busy, setBusy] = useState(false),
-    [message, setMessage] = useState(""),
-    [success, setSuccess] = useState(false);
-  async function submit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const form = event.currentTarget;
-    setBusy(true);
-    setMessage("");
-    try {
-      await api(
-        "/contact",
-        send("POST", Object.fromEntries(new FormData(form))),
-      );
-      setSuccess(true);
-      setMessage("Tu mensaje se guardó correctamente. ¡Gracias por escribir!");
-      form.reset();
-    } catch (error) {
-      setSuccess(false);
-      setMessage((error as Error).message);
-    } finally {
-      setBusy(false);
-    }
-  }
+import Icon from "./Icon";
+export default function Contact({
+  links,
+  cv,
+}: {
+  links: RecordData[];
+  cv?: string;
+}) {
   return (
     <>
       <div className="explorer-toolbar">
-        Libreta de direcciones <b>›</b> Nuevo mensaje
+        Libreta de direcciones <b>›</b> Contacto
       </div>
-      <div className="content-pad">
-        <span className="eyebrow">CONECTEMOS</span>
-        <h2>Una conversación puede ser el comienzo.</h2>
-        <p>Podés encontrarme en mis redes o dejarme un mensaje.</p>
+      <div className="contact-details">
+        <h2>Hablemos</h2>
+        <p>Podés encontrarme por email o en mis redes profesionales.</p>
+        <a className="email-link" href="mailto:agustinabanegas26@gmail.com">
+          <Icon name="email" size={24} />
+          <span>agustinabanegas26@gmail.com</span>
+        </a>
         <SocialLinks links={links} />
-        <form className="contact-form" onSubmit={submit}>
-          <div className="form-row">
-            <label>
-              Tu nombre
-              <input
-                name="name"
-                required
-                minLength={2}
-                maxLength={120}
-                autoComplete="name"
-              />
-            </label>
-            <label>
-              Tu email
-              <input
-                name="email"
-                type="email"
-                required
-                maxLength={254}
-                autoComplete="email"
-              />
-            </label>
-          </div>
-          <label>
-            Asunto
-            <input name="subject" required minLength={3} maxLength={160} />
-          </label>
-          <label>
-            Mensaje
-            <textarea
-              name="message"
-              required
-              minLength={10}
-              maxLength={6000}
-              rows={5}
-            />
-          </label>
-          {message && (
-            <p role="status" className={success ? "success" : "error"}>
-              {message}
-            </p>
-          )}
-          <button className="primary" disabled={busy}>
-            {busy ? "Enviando..." : "✉ Enviar mensaje"}
-          </button>
-        </form>
+        <a
+          className="primary download-cv"
+          href={cv || "/cv/Agustina-Banegas-CV.pdf"}
+          download="Agustina-Banegas-CV.pdf"
+        >
+          <Icon name="document" size={23} />
+          Descargar Curriculum
+        </a>
       </div>
     </>
   );

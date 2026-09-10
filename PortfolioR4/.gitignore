@@ -7,3 +7,7 @@ uploads/
 .runtime/
 *.log
 *.local
+
+# Copias de datos privados para migración (no publicar)
+supabase/backups/
+supabase/migration-data.sql

@@ -83,33 +83,7 @@ export default function Projects({ projects }: { projects: RecordData[] }) {
       ) : visible.length ? (
         <div className="project-grid">
           {visible.map((p) => (
-            <article className="project-card" key={p.id}>
-              {p.image ? (
-                <img
-                  src={String(p.image)}
-                  alt={`Vista de ${p.title}`}
-                  loading="lazy"
-                />
-              ) : (
-                <div className="project-placeholder">
-                  <Icon name="projects" size={64} />
-                </div>
-              )}
-              <div className="project-card-body">
-                <small>
-                  {String(p.category)} {p.is_featured ? "· ★ Destacado" : ""}
-                </small>
-                <h3>{String(p.title)}</h3>
-                <p>{String(p.description)}</p>
-                <div className="tags">
-                  {(p.technologies as string[]).map((t) => (
-                    <span key={t}>{t}</span>
-                  ))}
-                </div>
-                <button onClick={() => setDetail(p)}>Más información →</button>
-                <ProjectLinks project={p} />
-              </div>
-            </article>
+            <ProjectCard key={p.id} p={p} onSelect={setDetail} />
           ))}
         </div>
       ) : (
@@ -165,5 +139,40 @@ function ProjectLinks({ project }: { project: RecordData }) {
         </a>
       )}
     </div>
+  );
+}
+
+function ProjectCard({
+  p,
+  onSelect,
+}: {
+  p: RecordData;
+  onSelect: (project: RecordData) => void;
+}) {
+  return (
+    <article className="project-card">
+      {p.image ? (
+        <img src={String(p.image)} alt={`Vista de ${p.title}`} loading="lazy" />
+      ) : (
+        <div className="project-placeholder">
+          <Icon name="projects" size={64} />
+        </div>
+      )}
+      <div className="project-card-body">
+        <small>
+          {String(p.category)} {p.is_featured ? "· ★ Destacado" : ""}
+        </small>
+        <h3>{String(p.title)}</h3>
+        <p className="badge">{String(p.status || "")}</p>
+        <p>{String(p.description)}</p>
+        <div className="tags">
+          {(p.technologies as string[]).map((t) => (
+            <span key={t}>{t}</span>
+          ))}
+        </div>
+        <button onClick={() => onSelect(p)}>Más información →</button>
+        <ProjectLinks project={p} />
+      </div>
+    </article>
   );
 }

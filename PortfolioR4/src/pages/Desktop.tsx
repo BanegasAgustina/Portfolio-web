@@ -11,6 +11,7 @@ import { useTheme } from "../context/theme";
 import Window from "../components/Window";
 import Icon from "../components/Icon";
 import Projects from "../components/Projects";
+import Skills from "../components/Skills";
 import Tools from "../components/Tools";
 import Contact from "../components/Contact";
 import SocialLinks from "../components/SocialLinks";
@@ -18,10 +19,10 @@ const titles: Record<WindowId, string> = {
   about: "Sobre mí",
   projects: "Mis proyectos",
   tools: "Herramientas",
+  skills: "Habilidades",
   experience: "Experiencia",
   education: "Educación",
   contact: "Contacto",
-  achievements: "Logros",
   notes: "Bloc de notas",
 };
 export default function Desktop() {
@@ -50,9 +51,11 @@ export default function Desktop() {
         });
     void load();
     window.addEventListener("focus", load);
+    window.addEventListener("portfolio-content-changed", load);
     return () => {
       cancelled = true;
       window.removeEventListener("focus", load);
+      window.removeEventListener("portfolio-content-changed", load);
     };
   }, [attempt]);
   // useRef permite detectar clics fuera del menú sin buscar nodos globalmente.
@@ -97,6 +100,7 @@ export default function Desktop() {
             "about",
             "projects",
             "tools",
+            "skills",
             "experience",
             "education",
             "contact",
@@ -108,6 +112,13 @@ export default function Desktop() {
           </button>
         ))}
       </nav>
+      {data && error && (
+        <div className="refresh-error" role="alert">
+          No se pudo actualizar el contenido. Mostrando la última carga
+          correcta.{" "}
+          <button onClick={() => setAttempt((v) => v + 1)}>Reintentar</button>
+        </div>
+      )}
       <div className="workspace" id="workspace" tabIndex={-1}>
         {!data ? (
           <Window title="Mi portfolio" icon="about">
@@ -232,6 +243,9 @@ export default function Desktop() {
                   </>
                 )}
                 {id === "projects" && <Projects projects={data.projects} />}
+                {id === "skills" && (
+                  <Skills skills={data.skills} personal={data.soft_skills} />
+                )}
                 {id === "tools" && <Tools skills={data.skills} />}
                 {id === "contact" && (
                   <Contact
@@ -239,9 +253,7 @@ export default function Desktop() {
                     cv={String(data.profile.cv || "")}
                   />
                 )}
-                {(
-                  ["experience", "education", "achievements"] as WindowId[]
-                ).includes(id) && (
+                {(["experience", "education"] as WindowId[]).includes(id) && (
                   <>
                     <div className="explorer-toolbar">
                       Mis documentos <b>›</b> {titles[id]}
@@ -251,9 +263,7 @@ export default function Desktop() {
                       <h2>{titles[id]}</h2>
                       {(id === "experience"
                         ? data.experiences
-                        : id === "education"
-                          ? data.education
-                          : data.achievements
+                        : data.education
                       ).map((item) => (
                         <article className="timeline-item" key={item.id}>
                           {((id === "education" &&
@@ -292,9 +302,6 @@ export default function Desktop() {
                           </small>
                         </article>
                       ))}
-                      {id === "achievements" && !data.achievements.length && (
-                        <p>Todavía no hay logros publicados.</p>
-                      )}
                     </div>
                   </>
                 )}
@@ -333,6 +340,7 @@ export default function Desktop() {
                     "about",
                     "projects",
                     "tools",
+                    "skills",
                     "contact",
                     "notes",
                   ] as WindowId[]
@@ -344,9 +352,7 @@ export default function Desktop() {
                 ))}
               </div>
               <div>
-                {(
-                  ["experience", "education", "achievements"] as WindowId[]
-                ).map((id) => (
+                {(["experience", "education"] as WindowId[]).map((id) => (
                   <button key={id} onClick={() => open(id)}>
                     {titles[id]}
                   </button>

@@ -8,7 +8,6 @@ export type Portfolio = {
   skills: RecordData[];
   experiences: RecordData[];
   education: RecordData[];
-  achievements: RecordData[];
   social_links: RecordData[];
   soft_skills: RecordData[];
 };
@@ -16,8 +15,8 @@ export type WindowId =
   | "about"
   | "projects"
   | "tools"
+  | "skills"
   | "experience"
   | "education"
   | "contact"
-  | "achievements"
   | "notes";

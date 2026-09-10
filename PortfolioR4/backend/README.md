@@ -1,30 +1,14 @@
-# Backend del portfolio
+# Backend opcional
 
-API Node + Express separada del frontend. Dependencias propias en `package.json`; la instalación de la raíz (`npm ci`) incluye este paquete mediante npm workspaces.
+El portfolio y el administrador se conectan directamente a Supabase. Este servicio Express conserva la recepción de contacto con validación y rate limit, y permite servir `dist/`.
 
-## MySQL de XAMPP
+Copiar `.env.example` a `.env` y completar `SUPABASE_URL`. Para `/api/contact` y `/api/health`, completar también `SUPABASE_SECRET_KEY` exclusivamente en este servidor. `FRONTEND_URL` debe coincidir con el origen del formulario; las escrituras desde otro origen se rechazan. No usar variables `VITE_` para secretos.
 
-1. Iniciar Apache y MySQL en XAMPP.
-2. Abrir http://localhost/phpmyadmin y crear `agustina_portfolio` con cotejamiento `utf8mb4_unicode_ci`.
-3. Seleccionar la base e importar `database/schema.sql`, luego `database/seed.sql`, sólo una vez en tablas vacías.
-4. Configurar `.env` (copiar `.env.example` si no existe). Con XAMPP habitual: `DB_HOST=127.0.0.1`, `DB_PORT=3306`, `DB_USER=root`, `DB_PASSWORD=` y `DB_NAME=agustina_portfolio`.
-5. Completar `SESSION_SECRET` (mínimo 32 caracteres aleatorios) y `ADMIN_PASSWORD` (12 caracteres como mínimo, máximo 72 bytes UTF-8).
-6. Ejecutar `npm run admin:password` para crear el administrador en la base importada.
+- `npm run dev`: servidor con recarga.
+- `npm start`: servidor sin recarga, por defecto puerto 3001.
+- `/api/contact`: POST con nombre, email, asunto y mensaje; validación Zod y máximo 5 envíos cada 15 minutos por IP.
+- `/api/health`: prueba la conexión del servidor a Supabase.
 
-Alternativa: crear únicamente la base en phpMyAdmin y ejecutar `npm run db:setup`; este comando importa estructura y datos automáticamente. No combinar ambas cargas de la semilla.
+La interfaz de contacto actual usa email y redes, por lo que el frontend se puede alojar estáticamente sin este servicio. El SQL de Supabase bloquea la inserción directa de mensajes desde clientes públicos. La administración de mensajes usa Auth y RLS desde React.
 
-## Comandos desde esta carpeta
-
-```powershell
-npm run dev             # API en http://localhost:3001 con recarga automática
-npm start               # API sin recarga automática
-npm run db:setup        # Crear tablas y datos iniciales en una base existente
-npm run admin:password  # Crear o cambiar la contraseña y cerrar sesiones anteriores
-npm test                # Pruebas unitarias; integración requiere RUN_INTEGRATION=1
-```
-
-Desde la raíz del proyecto también funciona `npm run backend`.
-
-Las imágenes se guardan en `backend/uploads`. `.env` se carga desde esta carpeta independientemente del directorio de trabajo. La compilación del frontend se sirve desde `../dist` y su proxy de desarrollo dirige `/api` y `/uploads` a esta API.
-
-La documentación completa de endpoints, seguridad, normalización SQL, pruebas y deploy está en el README de la raíz de la aplicación.
+Documentación de configuración, migración, seguridad y verificación en el [README del repositorio](../../README.md).

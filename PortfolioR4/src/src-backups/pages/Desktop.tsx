@@ -1,5 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import waving from "../assets/img/icono saludando.png";
+import schoolLogo from "../assets/img/Logo escuela.png";
+import companyLogo from "../assets/img/Logo_Nucleo_rojo-blanco.png";
 import avatar from "../assets/img/avatar-seccion-sobre mi.png";
 import { api } from "../services/api";
 import type { Portfolio, WindowId } from "../types";
@@ -8,6 +11,7 @@ import { useTheme } from "../context/theme";
 import Window from "../components/Window";
 import Icon from "../components/Icon";
 import Projects from "../components/Projects";
+import Skills from "../components/Skills";
 import Tools from "../components/Tools";
 import Contact from "../components/Contact";
 import SocialLinks from "../components/SocialLinks";
@@ -15,12 +19,12 @@ const titles: Record<WindowId, string> = {
   about: "Sobre mí",
   projects: "Mis proyectos",
   tools: "Herramientas",
+  skills: "Habilidades",
   experience: "Experiencia",
   education: "Educación",
   contact: "Contacto",
   achievements: "Logros",
   notes: "Bloc de notas",
-  recycle: "Papelera de reciclaje",
 };
 export default function Desktop() {
   const [data, setData] = useState<Portfolio | null>(null),
@@ -76,12 +80,6 @@ export default function Desktop() {
     requestAnimationFrame(() => {
       const element = document.getElementById(`window-${id}`);
       element?.focus({ preventScroll: true });
-      element?.scrollIntoView({
-        block: "start",
-        behavior: matchMedia("(prefers-reduced-motion: reduce)").matches
-          ? "instant"
-          : "smooth",
-      });
     });
   };
   return (
@@ -90,10 +88,9 @@ export default function Desktop() {
         Ir al contenido
       </a>
       <div className="desktop-brand">
-        <span className="brand-squares">⊞</span>
+        <img className="desktop-mascot" src={waving} alt="Agustina saludando" />
         <span>
-          agustina<span className="brand-light">.portfolio</span>
-          <small>UN PEQUEÑO ESCRITORIO, MUCHAS IDEAS.</small>
+          Agustina <span className="brand-light">Portfolio</span>
         </span>
       </div>
       <nav className="desktop-icons" aria-label="Accesos directos">
@@ -102,6 +99,8 @@ export default function Desktop() {
             "about",
             "projects",
             "tools",
+            "skills",
+            "achievements",
             "experience",
             "education",
             "contact",
@@ -112,22 +111,14 @@ export default function Desktop() {
             <span>{titles[id]}</span>
           </button>
         ))}
-        {data?.social_links.map((s) => (
-          <a
-            key={s.id}
-            href={String(s.url)}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Icon name={String(s.name)} size={42} />
-            <span>{String(s.name)} ↗</span>
-          </a>
-        ))}
-        <button onClick={() => open("recycle")}>
-          <Icon name="recycle" size={44} />
-          <span>Papelera</span>
-        </button>
       </nav>
+      {data && error && (
+        <div className="refresh-error" role="alert">
+          No se pudo actualizar el contenido. Mostrando la última carga
+          correcta.{" "}
+          <button onClick={() => setAttempt((v) => v + 1)}>Reintentar</button>
+        </div>
+      )}
       <div className="workspace" id="workspace" tabIndex={-1}>
         {!data ? (
           <Window title="Mi portfolio" icon="about">
@@ -153,191 +144,191 @@ export default function Desktop() {
           </Window>
         ) : (
           <>
-            {manager.windows
-              .filter((id) => !manager.minimized.includes(id))
-              .map((id) => (
-                <Window
-                  key={id}
-                  title={titles[id]}
-                  icon={id}
-                  className={`window-${id}`}
-                  active={manager.active === id}
-                  onFocus={() => manager.focus(id)}
-                  onClose={() => manager.close(id)}
-                  onMinimize={() => manager.minimize(id)}
-                >
-                  {id === "about" && (
-                    <>
-                      <div className="property-tabs">
-                        <span className="selected">General</span>
-                        <button onClick={() => setMore((v) => !v)}>
-                          Mi recorrido
+            {manager.windows.map((id) => (
+              <Window
+                key={id}
+                title={titles[id]}
+                icon={id}
+                className={`window-${id}`}
+                active={manager.active === id}
+                zIndex={manager.zIndex(id)}
+                hidden={manager.minimized.includes(id)}
+                onFocus={() => manager.focus(id)}
+                onClose={() => manager.close(id)}
+                onMinimize={() => manager.minimize(id)}
+              >
+                {id === "about" && (
+                  <>
+                    <div className="property-tabs">
+                      <span className="selected">General</span>
+                      <button onClick={() => setMore((v) => !v)}>
+                        Mi recorrido
+                      </button>
+                    </div>
+                    <div className="about-intro">
+                      <div className="avatar-scene">
+                        <img
+                          src={String(data.profile.avatar || avatar)}
+                          alt="Avatar ilustrado de Agustina programando en su escritorio"
+                        />
+                        <span className="avatar-caption">¡Hola, mundo!</span>
+                      </div>
+                      <div className="about-text">
+                        <span className="eyebrow">
+                          BIENVENIDO A MI ESCRITORIO
+                        </span>
+                        <h1>
+                          {String(data.profile.name)}
+                          <span className="name-dot">.</span>
+                        </h1>
+                        <p className="role">{String(data.profile.role)}</p>
+                        <p className="location">
+                          ⌖ {String(data.profile.location)}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="about-description">
+                      <p>{String(data.profile.description)}</p>
+                      <div className="hero-actions">
+                        <button
+                          className="primary"
+                          onClick={() => open("projects")}
+                        >
+                          <Icon name="projects" size={20} />
+                          Explorar proyectos
+                        </button>
+                        <button onClick={() => open("contact")}>
+                          Hablemos ↗
+                        </button>
+                        <button
+                          className="text-button"
+                          onClick={() => setMore((v) => !v)}
+                        >
+                          {more ? "Ver menos" : "Conoceme más"}
                         </button>
                       </div>
-                      <div className="about-intro">
-                        <div className="avatar-scene">
-                          <img
-                            src={String(data.profile.avatar || avatar)}
-                            alt="Avatar ilustrado de Agustina programando en su escritorio"
-                          />
-                          <span className="avatar-caption">¡Hola, mundo!</span>
-                        </div>
-                        <div className="about-text">
-                          <span className="eyebrow">
-                            BIENVENIDO A MI ESCRITORIO
-                          </span>
-                          <h1>
-                            {String(data.profile.name)}
-                            <span className="name-dot">.</span>
-                          </h1>
-                          <p className="role">{String(data.profile.role)}</p>
-                          <p className="location">
-                            ⌖ {String(data.profile.location)}
+                      {more && (
+                        <div className="more-about">
+                          <h3>Aprender también es parte del camino</h3>
+                          <p>
+                            {data.education
+                              .map((e) => `${e.description} ${e.organization}`)
+                              .join(" ")}
                           </p>
-                        </div>
-                      </div>
-                      <div className="about-description">
-                        <p>{String(data.profile.description)}</p>
-                        <div className="hero-actions">
-                          <button
-                            className="primary"
-                            onClick={() => open("projects")}
-                          >
-                            <Icon name="projects" size={20} />
-                            Explorar proyectos
-                          </button>
-                          <button onClick={() => open("contact")}>
-                            Hablemos ↗
-                          </button>
-                          <button
-                            className="text-button"
-                            onClick={() => setMore((v) => !v)}
-                          >
-                            {more ? "Ver menos" : "Conoceme más"}
-                          </button>
-                        </div>
-                        {more && (
-                          <div className="more-about">
-                            <h3>Aprender también es parte del camino</h3>
-                            <p>
-                              {data.education
-                                .map(
-                                  (e) => `${e.description} ${e.organization}`,
-                                )
-                                .join(" ")}
-                            </p>
-                            <div className="tags">
-                              {data.soft_skills.map((s) => (
-                                <span key={s.id}>{String(s.name)}</span>
-                              ))}
-                            </div>
-                            {data.profile.cv && (
-                              <a
-                                href={String(data.profile.cv)}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                              >
-                                Ver CV ↗
-                              </a>
-                            )}
-                            {!!data.profile.show_phone &&
-                              data.profile.phone && (
-                                <p>Teléfono: {String(data.profile.phone)}</p>
-                              )}
+                          <div className="tags">
+                            {data.soft_skills.map((s) => (
+                              <span key={s.id}>{String(s.name)}</span>
+                            ))}
                           </div>
-                        )}
-                        <SocialLinks links={data.social_links} />
-                      </div>
-                      <div className="statusbar">
-                        <span className="green-dot" />
-                        Aprendiendo y construyendo{" "}
-                        <span>Portfolio personal</span>
-                      </div>
-                    </>
-                  )}
-                  {id === "projects" && <Projects projects={data.projects} />}
-                  {id === "tools" && <Tools skills={data.skills} />}
-                  {id === "contact" && <Contact links={data.social_links} />}
-                  {(
-                    ["experience", "education", "achievements"] as WindowId[]
-                  ).includes(id) && (
-                    <>
-                      <div className="explorer-toolbar">
-                        Mis documentos <b>›</b> {titles[id]}
-                      </div>
-                      <div className="content-pad">
-                        <span className="eyebrow">MI RECORRIDO</span>
-                        <h2>{titles[id]}</h2>
-                        {(id === "experience"
-                          ? data.experiences
-                          : id === "education"
-                            ? data.education
-                            : data.achievements
-                        ).map((item) => (
-                          <article className="timeline-item" key={item.id}>
-                            <span className="badge">
-                              {String(item.status || item.date || "")}
-                            </span>
-                            {item.icon && (
-                              <img
-                                src={String(item.icon)}
-                                alt=""
-                                width={32}
-                                height={32}
-                              />
-                            )}
-                            <h3>{String(item.title)}</h3>
-                            <h4>{String(item.organization || "")}</h4>
-                            <p>{String(item.description)}</p>
-                            <small>
-                              {String(item.location || "")}{" "}
-                              {String(item.date || "")}
-                            </small>
-                          </article>
-                        ))}
-                        {id === "achievements" && !data.achievements.length && (
-                          <p>Todavía no hay logros publicados.</p>
-                        )}
-                      </div>
-                    </>
-                  )}
-                  {id === "notes" && (
-                    <div className="notepad">
-                      <p>Archivo · Edición · Formato</p>
-                      <textarea
-                        aria-label="Bloc de notas personal de esta visita"
-                        defaultValue="¡Hola! Este espacio es para tus ideas. Estas notas duran mientras la ventana esté abierta."
-                      />
+                          {data.profile.cv && (
+                            <a
+                              href={String(data.profile.cv)}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              Ver CV ↗
+                            </a>
+                          )}
+                          {!!data.profile.show_phone && data.profile.phone && (
+                            <p>Teléfono: {String(data.profile.phone)}</p>
+                          )}
+                        </div>
+                      )}
+                      <SocialLinks links={data.social_links} />
                     </div>
-                  )}
-                  {id === "recycle" && (
-                    <div className="empty-projects">
-                      <Icon name="recycle" size={70} />
-                      <h2>Todo en su lugar.</h2>
-                      <p>La papelera está vacía. Las ganas de aprender, no.</p>
+                    <div className="statusbar">
+                      <span className="green-dot" />
+                      Aprendiendo y construyendo <span>Portfolio personal</span>
                     </div>
-                  )}
-                </Window>
-              ))}
-            {!manager.windows.filter((id) => !manager.minimized.includes(id))
-              .length && (
-              <div className="desktop-hint">
-                Tu escritorio, a tu ritmo.
-                <small>Abrí una carpeta para seguir explorando.</small>
-              </div>
-            )}
+                  </>
+                )}
+                {id === "projects" && <Projects projects={data.projects} />}
+                {id === "skills" && (
+                  <Skills skills={data.skills} personal={data.soft_skills} />
+                )}
+                {id === "tools" && <Tools skills={data.skills} />}
+                {id === "contact" && (
+                  <Contact
+                    links={data.social_links}
+                    cv={String(data.profile.cv || "")}
+                  />
+                )}
+                {(
+                  ["experience", "education", "achievements"] as WindowId[]
+                ).includes(id) && (
+                  <>
+                    <div className="explorer-toolbar">
+                      Mis documentos <b>›</b> {titles[id]}
+                    </div>
+                    <div className="content-pad">
+                      <span className="eyebrow">MI RECORRIDO</span>
+                      <h2>{titles[id]}</h2>
+                      {(id === "experience"
+                        ? data.experiences
+                        : id === "education"
+                          ? data.education
+                          : data.achievements
+                      ).map((item) => (
+                        <article className="timeline-item" key={item.id}>
+                          {((id === "education" &&
+                            /Amancio|EEST|Técnica.*5/i.test(
+                              String(item.organization),
+                            )) ||
+                            (id === "experience" &&
+                              /Grupo N[uú]cleo/i.test(
+                                String(item.organization),
+                              ))) && (
+                            <img
+                              className={`organization-logo ${id}`}
+                              src={
+                                id === "education" ? schoolLogo : companyLogo
+                              }
+                              alt={`Logo de ${item.organization}`}
+                            />
+                          )}
+                          <span className="badge">
+                            {String(item.status || item.date || "")}
+                          </span>
+                          {item.icon && (
+                            <img
+                              src={String(item.icon)}
+                              alt=""
+                              width={32}
+                              height={32}
+                            />
+                          )}
+                          <h3>{String(item.title)}</h3>
+                          <h4>{String(item.organization || "")}</h4>
+                          <p>{String(item.description)}</p>
+                          <small>
+                            {String(item.location || "")}{" "}
+                            {String(item.date || "")}
+                          </small>
+                        </article>
+                      ))}
+                      {id === "achievements" && !data.achievements.length && (
+                        <p>Todavía no hay logros publicados.</p>
+                      )}
+                    </div>
+                  </>
+                )}
+                {id === "notes" && (
+                  <div className="notepad">
+                    <p>Archivo · Edición · Formato</p>
+                    <textarea
+                      aria-label="Bloc de notas personal de esta visita"
+                      defaultValue="¡Hola! Este espacio es para tus ideas. Estas notas duran mientras la ventana esté abierta."
+                    />
+                  </div>
+                )}
+              </Window>
+            ))}
           </>
         )}
       </div>
       <aside className="desktop-note">
-        <span>✧</span>
-        <p>
-          {String(
-            data?.profile.tagline ||
-              "Aprendiendo, creando y desarrollando una idea a la vez.",
-          )}
-        </p>
-        <small>Mar del Plata, Argentina</small>
+        <p>¡Abrí las carpetas o explorá el portfolio!</p>
+        <span>:)</span>
       </aside>
       <div ref={menu}>
         {start && (
@@ -356,6 +347,7 @@ export default function Desktop() {
                     "about",
                     "projects",
                     "tools",
+                    "skills",
                     "contact",
                     "notes",
                   ] as WindowId[]

@@ -3,6 +3,7 @@ import type { RecordData } from "../types";
 import TechnologyIcon from "./TechnologyIcon";
 export default function Tools({ skills }: { skills: RecordData[] }) {
   const [category, setCategory] = useState("Todas");
+  const [selected, setSelected] = useState<number | undefined>();
   const categories = useMemo(
     () => Array.from(new Set(skills.map((s) => String(s.category)))),
     [skills],
@@ -30,7 +31,11 @@ export default function Tools({ skills }: { skills: RecordData[] }) {
             .filter((s) => category === "Todas" || s.category === category)
             .map((s) => (
               <button
-                className="tool"
+                className={`tool ${selected === s.id ? "selected-tool" : ""}`}
+                onClick={() =>
+                  setSelected(selected === s.id ? undefined : s.id)
+                }
+                aria-expanded={selected === s.id}
                 key={s.id}
                 aria-describedby={`tip-${s.id}`}
               >
@@ -59,7 +64,7 @@ export default function Tools({ skills }: { skills: RecordData[] }) {
           skills.filter((s) => category === "Todas" || s.category === category)
             .length
         }{" "}
-        herramientas · Señalá un icono para conocer su uso.
+        herramientas · Tocá o señalá un icono para conocer su uso.
       </div>
     </>
   );

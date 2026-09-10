@@ -116,13 +116,6 @@ export const fields: Record<string, Field[]> = {
     status,
     order,
   ],
-  achievements: [
-    title,
-    description,
-    date,
-    { key: "icon", label: "Icono", type: "image" },
-    order,
-  ],
   social_links: [
     { key: "name", label: "Nombre de la red", required: true, max: 160 },
     { key: "url", label: "URL profesional", type: "url", required: true },
@@ -139,7 +132,6 @@ export const sections: Record<string, string> = {
   skills: "Herramientas",
   experiences: "Experiencia",
   education: "Educación",
-  achievements: "Logros",
   profile: "Información personal",
   social_links: "Redes",
   soft_skills: "Habilidades personales",

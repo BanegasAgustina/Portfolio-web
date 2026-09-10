@@ -10,18 +10,20 @@
     "preview": "vite preview",
     "server": "npm run dev --workspace backend",
     "start": "npm start --workspace backend",
-    "db:setup": "npm run db:setup --workspace backend",
-    "test": "npm test --workspace backend",
-    "admin:password": "npm run admin:password --workspace backend",
+    "test": "node --test tests/*.test.mjs",
     "format": "prettier --write src backend index.html vite.config.ts eslint.config.js README.md package.json",
-    "backend": "npm run dev --workspace backend"
+    "backend": "npm run dev --workspace backend",
+    "test:supabase": "node scripts/verify-supabase.mjs",
+    "db:seed": "node scripts/generate-seed.mjs"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.0.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "react-router-dom": "^7.18.3"
   },
   "devDependencies": {
+    "@electric-sql/pglite": "^0.5.8",
     "@eslint/js": "^10.0.1",
     "@types/node": "^24.13.3",
     "@types/react": "^19.2.18",
