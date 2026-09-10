@@ -57,19 +57,35 @@ api.post("/auth/login", rateLimit({ windowMs: 15 * 60000, limit: 10 }), async (r
   const password = req.body?.password;
   if (typeof password !== "string" || !password || password.length > 128)
     return res.status(400).json({ error: "Ingresá una contraseña válida." });
-  const { data: admin, error } = await getServerSupabase()
-    .from("admins")
-    .select("id, password_hash")
-    .order("id", { ascending: true })
-    .limit(1)
-    .maybeSingle();
-  if (error) throw error;
-  if (!admin || typeof admin.password_hash !== "string")
-    return res.status(503).json({ error: "El administrador no está configurado." });
-  const valid = await bcrypt.compare(password, admin.password_hash);
-  if (!valid) return res.status(401).json({ error: "Credenciales inválidas." });
-  await createAdminSession(res, admin.id);
-  return res.json({ authenticated: true });
+  let stage = "supabase";
+  try {
+    const { data: admin, error } = await getServerSupabase()
+      .from("admins")
+      .select("id, password_hash")
+      .order("id", { ascending: true })
+      .limit(1)
+      .maybeSingle();
+    if (error) throw error;
+    if (!admin || typeof admin.password_hash !== "string")
+      return res
+        .status(503)
+        .json({ error: "El administrador no está configurado." });
+    stage = "bcrypt";
+    const valid = await bcrypt.compare(password, admin.password_hash);
+    if (!valid) return res.status(401).json({ error: "Credenciales inválidas." });
+    stage = "session";
+    await createAdminSession(res, admin.id);
+    return res.json({ authenticated: true });
+  } catch (error) {
+    console.error("Admin login failed:", {
+      stage,
+      message: error?.message,
+      code: error?.code,
+      details: error?.details,
+      hint: error?.hint,
+    });
+    throw error;
+  }
 });
 
 api.get("/auth/me", async (req, res) => {
