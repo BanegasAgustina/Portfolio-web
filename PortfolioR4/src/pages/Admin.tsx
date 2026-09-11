@@ -2,7 +2,8 @@ import { useEffect, useState, type FormEvent } from "react";
 import { Link } from "react-router-dom";
 import waving from "../assets/img/icono saludando.png";
 import Window from "../components/Window";
-import Icon from "../components/Icon";
+import AdminIcon from "../components/admin/AdminIcon";
+import "./Admin.css";
 import Editor from "../components/admin/Editor";
 import ConfirmDialog from "../components/admin/ConfirmDialog";
 import { sections } from "../components/admin/fields";
@@ -153,11 +154,7 @@ export default function Admin() {
     <main className="admin-page">
       <header className="admin-header">
         <div className="admin-brand">
-          <img
-            className="admin-avatar"
-            src={waving}
-            alt="Agustina saludando"
-          />
+          <img className="admin-avatar" src={waving} alt="Agustina saludando" />
           <h1>Administración del Portfolio</h1>
         </div>
         <Link to="/">← Volver al escritorio</Link>
@@ -167,15 +164,13 @@ export default function Admin() {
           <p className="content-pad">Comprobando sesión...</p>
         </Window>
       ) : !auth ? (
-        <Window
-          title="Iniciar sesión"
-          icon="tools"
-          className="login-window"
-        >
+        <Window title="Iniciar sesión" icon="tools" className="login-window">
           <form className="login-form" onSubmit={login}>
             <div className="login-intro">
-              <Icon name="tools" size={32} />
-              <p>Iniciá sesión para acceder a la administración del portfolio.</p>
+              <AdminIcon name="dashboard" size={40} />
+              <p>
+                Iniciá sesión para acceder a la administración del portfolio.
+              </p>
             </div>
             <label>
               Contraseña
@@ -213,23 +208,16 @@ export default function Admin() {
                 <button
                   key={key}
                   className={section === key ? "selected" : ""}
+                  aria-current={section === key ? "page" : undefined}
                   onClick={() => navigate(key)}
                 >
-                  <Icon
-                    name={
-                      key === "projects"
-                        ? "projects"
-                        : key === "profile"
-                          ? "about"
-                          : "tools"
-                    }
-                    size={24}
-                  />
-                  {label}
+                  <AdminIcon name={key} />
+                  <span>{label}</span>
                 </button>
               ))}
               <button disabled={busy} onClick={() => void logout()}>
-                ⏻ Cerrar sesión
+                <AdminIcon name="logout" />
+                <span>Cerrar sesión</span>
               </button>
             </nav>
             <div className="admin-main">
@@ -265,16 +253,7 @@ export default function Admin() {
                       )
                       .map(([key, label]) => (
                         <button key={key} onClick={() => navigate(key)}>
-                          <Icon
-                            name={
-                              key === "projects"
-                                ? "projects"
-                                : key === "profile"
-                                  ? "about"
-                                  : "tools"
-                            }
-                            size={40}
-                          />
+                          <AdminIcon name={key} size={40} />
                           {label}
                         </button>
                       ))}
