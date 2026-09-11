@@ -8,15 +8,50 @@
 import { useMemo, useState } from "react";
 import type { RecordData } from "../types";
 import TechnologyIcon from "./TechnologyIcon";
+
+const categoryOrder = [
+  "Desarrollo web",
+  "Lenguajes de programación",
+  "Bases de datos",
+  "Control de versiones",
+  "Sistemas",
+  "Microsoft Office",
+  "Google",
+  "Diseño",
+  "Edición",
+  "Inteligencia Artificial",
+  "Soporte técnico",
+];
+
 // Recibe skills y devuelve herramientas filtradas; sus eventos cambian categoría y selección local.
 export default function Tools({ skills }: { skills: RecordData[] }) {
+  const visibleSkills = useMemo(
+    () => skills.filter((skill) => String(skill.name).trim().toLowerCase() !== "postman"),
+    [skills],
+  );
   // category guarda el filtro; selected guarda el ID cuya ayuda está abierta (undefined cierra la selección).
   const [category, setCategory] = useState("Todas");
   const [selected, setSelected] = useState<number | undefined>();
   // Recalcula las categorías sin duplicados sólo cuando cambia la lista recibida.
   const categories = useMemo(
-    () => Array.from(new Set(skills.map((s) => String(s.category)))),
-    [skills],
+    () =>
+      Array.from(new Set(visibleSkills.map((s) => String(s.category)))).sort(
+        (a, b) =>
+          (categoryOrder.indexOf(a) === -1 ? categoryOrder.length : categoryOrder.indexOf(a)) -
+          (categoryOrder.indexOf(b) === -1 ? categoryOrder.length : categoryOrder.indexOf(b)) ||
+          a.localeCompare(b),
+      ),
+    [visibleSkills],
+  );
+  const orderedSkills = useMemo(
+    () =>
+      [...visibleSkills].sort(
+        (a, b) =>
+          Number(a.display_order || 0) - Number(b.display_order || 0) ||
+          String(a.category).localeCompare(String(b.category)) ||
+          String(a.name).localeCompare(String(b.name)),
+      ),
+    [visibleSkills],
   );
   return (
     <>
@@ -39,7 +74,7 @@ export default function Tools({ skills }: { skills: RecordData[] }) {
           </select>
         </label>
         <div className="tools-grid">
-          {skills
+          {orderedSkills
             .filter((s) => category === "Todas" || s.category === category)
             .map((s) => (
               <button
@@ -73,8 +108,9 @@ export default function Tools({ skills }: { skills: RecordData[] }) {
       </div>
       <div className="statusbar">
         {
-          skills.filter((s) => category === "Todas" || s.category === category)
-            .length
+          visibleSkills.filter(
+            (s) => category === "Todas" || s.category === category,
+          ).length
         }{" "}
         herramientas · Tocá o señalá un icono para conocer su uso.
       </div>

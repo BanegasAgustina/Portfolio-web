@@ -14,7 +14,8 @@
     "format": "prettier --write src backend index.html vite.config.ts eslint.config.js README.md package.json",
     "backend": "npm run dev --workspace backend",
     "test:supabase": "node scripts/verify-supabase.mjs",
-    "db:seed": "node scripts/generate-seed.mjs"
+    "db:seed": "node scripts/generate-seed.mjs",
+    "db:update-tools": "node scripts/update-tools.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.0.0",

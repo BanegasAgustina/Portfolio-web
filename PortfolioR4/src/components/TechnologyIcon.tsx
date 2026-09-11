@@ -18,12 +18,33 @@ const brands: Record<string, [string, string]> = {
   Supabase: ["supabase", "#269866"],
   Git: ["git", "#f05032"],
   GitHub: ["github", "#596578"],
-  Postman: ["postman", "#ff6c37"],
   Figma: ["figma", "#a259ff"],
   Canva: ["canva", "#00a6b5"],
   XAMPP: ["xampp", "#fb7a24"],
   "Linux básico": ["linux", "#dba900"],
   "Google Drive": ["googledrive", "#248652"],
+};
+const glyphs: Record<string, [string, string]> = {
+  "C++": ["C++", "#00599c"],
+  Java: ["J", "#5382a1"],
+  Bootstrap: ["B", "#7952b3"],
+  ChatGPT: ["GPT", "#10a37f"],
+  Claude: ["AI", "#c15f3c"],
+  CapCut: ["CC", "#111827"],
+  "Microsoft Word": ["W", "#2b579a"],
+  "Microsoft Excel": ["X", "#217346"],
+  "Microsoft PowerPoint": ["P", "#d24726"],
+  "Microsoft Outlook": ["O", "#0072c6"],
+  "Microsoft OneNote": ["N", "#7719aa"],
+  "Microsoft Teams": ["T", "#6264a7"],
+  "Microsoft Access": ["A", "#a4373a"],
+  "Google Docs": ["D", "#4285f4"],
+  "Google Sheets": ["S", "#0f9d58"],
+  "Google Slides": ["S", "#f4b400"],
+  "Google Forms": ["F", "#673ab7"],
+  Gmail: ["M", "#ea4335"],
+  "Google Meet": ["M", "#00897b"],
+  "Google Calendar": ["31", "#4285f4"],
 };
 // Recibe name/size y devuelve una máscara local o un dibujo SVG de respaldo.
 export default function TechnologyIcon({
@@ -49,6 +70,30 @@ export default function TechnologyIcon({
           } as CSSProperties
         }
       />
+    );
+  const glyph = glyphs[name];
+  if (glyph)
+    return (
+      <svg
+        className="technology-icon"
+        aria-hidden="true"
+        width={size}
+        height={size}
+        viewBox="0 0 32 32"
+      >
+        <rect width="32" height="32" rx="6" fill={glyph[1]} />
+        <text
+          x="16"
+          y="21"
+          textAnchor="middle"
+          fill="white"
+          fontSize={glyph[0].length > 2 ? "8" : "15"}
+          fontFamily="Arial, sans-serif"
+          fontWeight="bold"
+        >
+          {glyph[0]}
+        </text>
+      </svg>
     );
   return (
     <svg
