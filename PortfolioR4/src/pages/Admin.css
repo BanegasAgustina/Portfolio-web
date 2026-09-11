@@ -1,3 +1,9 @@
+/*
+ * Archivo: src/pages/Admin.css
+ * Propósito:
+ * Ajustes visuales exclusivos del administrador mediante .admin-page.
+ * Define escala tipográfica, iconos, menú, registros y formularios, con variantes oscuras y responsive.
+ */
 /* Escala de lectura del administrador, sin afectar el escritorio público. */
 .admin-page {
   font-size: 16px;
@@ -14,6 +20,7 @@
 .admin-page .window-actions {
   flex-shrink: 0;
 }
+/* Distribución del panel y menú lateral con iconos de tamaño constante. */
 .admin-page .admin-shell {
   grid-template-columns: 280px minmax(0, 1fr);
 }
@@ -42,6 +49,7 @@
   height: 28px;
   flex: 0 0 28px;
 }
+/* Hover y selección XP: relleno azul y borde amarillo para la sección activa. */
 .admin-page .admin-nav button:hover:not(:disabled) {
   background: #c8ddfa;
   border-color: #6d9edc;
@@ -62,6 +70,7 @@
   margin-top: 8px;
   border-top-color: #a8bedb;
 }
+/* Contenido principal: encabezados, tamaños y controles más fáciles de pulsar. */
 .admin-page .admin-main {
   padding: 28px;
 }
@@ -98,6 +107,7 @@
 .admin-page .primary:active:not(:disabled) {
   box-shadow: inset 1px 2px 4px #092b6470;
 }
+/* Listados: títulos, texto secundario y acciones de cada registro. */
 .admin-page .admin-list {
   gap: 14px;
 }
@@ -131,6 +141,7 @@
 .admin-page .row-actions button {
   min-width: 84px;
 }
+/* Formularios: columnas, campos, ayudas, archivos y casillas. */
 .admin-page .editor-form {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 22px;
@@ -167,6 +178,7 @@
   flex-wrap: wrap;
   gap: 12px;
 }
+/* Login, avisos y confirmaciones con la misma escala de lectura. */
 .admin-page .login-window {
   max-width: 500px;
 }
@@ -191,6 +203,7 @@
 .admin-page .confirm-dialog h3 {
   font-size: 18px;
 }
+/* Tarjetas de acceso del panel de control. */
 .admin-page .dashboard-cards {
   grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr));
   gap: 18px;
@@ -204,6 +217,7 @@
 .admin-page .dashboard-cards button:hover {
   border-color: #e8a124;
 }
+/* Tema oscuro: cambia colores y contraste; conserva tamaños y separación. */
 [data-theme="dark"] .admin-page .admin-nav {
   background: linear-gradient(110deg, #253b59, #1e304a);
 }
@@ -229,6 +243,7 @@
   color: #ffdbd4;
   border-color: #ba7773;
 }
+/* Espacio intermedio: reduce márgenes interiores. */
 @media (max-width: 1100px) {
   .admin-page {
     padding: 24px;
@@ -237,6 +252,7 @@
     padding: 22px;
   }
 }
+/* Tablet: transforma sidebar en una grilla de tres columnas. */
 @media (max-width: 900px) {
   .admin-page .admin-shell {
     grid-template-columns: minmax(0, 1fr);
@@ -252,6 +268,7 @@
     margin-top: 0;
   }
 }
+/* Móvil: menú en dos columnas y formularios/registros en una columna. */
 @media (max-width: 640px) {
   .admin-page {
     padding: 20px 12px 48px;
@@ -297,6 +314,7 @@
     padding: 20px;
   }
 }
+/* Pantallas muy estrechas: menú en una columna para nombres largos. */
 @media (max-width: 380px) {
   .admin-page .admin-nav {
     grid-template-columns: minmax(0, 1fr);

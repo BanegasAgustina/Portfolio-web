@@ -1,7 +1,20 @@
+/*
+ * COPIA HISTÓRICA: src/src-backups/components/admin/Editor.tsx
+ * No se importa desde src/main.tsx y está excluida de TypeScript y ESLint.
+ * Los comentarios describen esta copia; no implica que sus pantallas/rutas existan en la versión activa.
+ */
+/*
+ * Archivo: src/src-backups/components/admin/Editor.tsx
+ * Propósito:
+ * Formulario reutilizable del administrador. entity elige fields y record aporta valores iniciales.
+ * busy viene de Admin; onSave recibe el objeto normalizado y onCancel vuelve a la vista anterior.
+ * Mantiene una copia editable y errores locales. Sube imágenes por la API, pero delega guardar el registro al padre.
+ */
 import { useState, type FormEvent } from "react";
 import type { RecordData } from "../../types";
 import { api } from "../../services/api";
 import { fields } from "./fields";
+// Recibe entity/record/busy y callbacks; devuelve controles definidos por fields y acciones de guardar/cancelar.
 export default function Editor({
   entity,
   record,
@@ -15,6 +28,8 @@ export default function Editor({
   onSave: (value: RecordData) => Promise<void>;
   onCancel: () => void;
 }) {
+  // value es la copia editable. Completa campos ausentes según su tipo, sin alterar record.
+  // uploading bloquea guardar durante una subida y error muestra fallos de subida o guardado.
   const [value, setValue] = useState<RecordData>(() =>
       Object.fromEntries(
         fields[entity].map((f) => [
@@ -34,8 +49,11 @@ export default function Editor({
     ),
     [uploading, setUploading] = useState(false),
     [error, setError] = useState("");
+  // Recibe clave y valor; reemplaza sólo esa propiedad de la copia local, sin consultar la base.
   const update = (key: string, v: RecordData[string]) =>
     setValue((prev) => ({ ...prev, [key]: v }));
+  // Recibe la clave del campo de imagen y un archivo opcional; rechaza más de 5 MB.
+  // POST /admin/upload envía FormData y recibe { url }; esa URL se guarda en value, aún no en el registro.
   async function upload(key: string, file?: File) {
     if (!file) return;
     if (file.size > 5 * 1024 * 1024) {
@@ -58,6 +76,8 @@ export default function Editor({
       setUploading(false);
     }
   }
+  // Recibe el evento de envío; normaliza checks y listas separadas por comas antes de esperar onSave.
+  // Admin elige POST/PUT y la URL; si falla, el formulario mantiene los datos y muestra el error.
   async function submit(e: FormEvent) {
     e.preventDefault();
     setError("");

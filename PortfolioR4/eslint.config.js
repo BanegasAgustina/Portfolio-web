@@ -1,3 +1,9 @@
+/*
+ * Archivo: eslint.config.js
+ * Propósito:
+ * Reglas de análisis estático. Aplica reglas de Node al backend y de TypeScript/React al frontend.
+ * Ignora dist, archivos de ejecución, uploads y las copias src/src-backups. No modifica código al ejecutarse.
+ */
 import js from "@eslint/js";
 import globals from "globals";
 import reactHooks from "eslint-plugin-react-hooks";

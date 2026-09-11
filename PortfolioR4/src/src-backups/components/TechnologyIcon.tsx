@@ -1,3 +1,15 @@
+/*
+ * COPIA HISTÓRICA: src/src-backups/components/TechnologyIcon.tsx
+ * No se importa desde src/main.tsx y está excluida de TypeScript y ESLint.
+ * Los comentarios describen esta copia; no implica que sus pantallas/rutas existan en la versión activa.
+ */
+/*
+ * Archivo: src/src-backups/components/TechnologyIcon.tsx
+ * Propósito:
+ * Dibuja el icono decorativo de una tecnología a partir de name y size (28 por defecto).
+ * brands asocia nombres a SVG locales y colores; el resto se dibuja con SVG dentro del componente.
+ * No descarga logos desde servicios externos ni mantiene estado.
+ */
 import type { CSSProperties } from "react";
 const brands: Record<string, [string, string]> = {
   HTML: ["html5", "#e34f26"],
@@ -18,6 +30,7 @@ const brands: Record<string, [string, string]> = {
   "Linux básico": ["linux", "#dba900"],
   "Google Drive": ["googledrive", "#248652"],
 };
+// Recibe name/size y devuelve una máscara local o un dibujo SVG de respaldo.
 export default function TechnologyIcon({
   name,
   size = 28,
@@ -25,6 +38,7 @@ export default function TechnologyIcon({
   name: string;
   size?: number;
 }) {
+  // Si hay marca conocida, usa el SVG público como máscara con su color; el resto pasa al dibujo alternativo.
   const brand = brands[name];
   if (brand)
     return (

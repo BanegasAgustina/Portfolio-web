@@ -1,9 +1,17 @@
+/*
+ * Archivo: src/components/admin/AdminIcon.tsx
+ * Propósito:
+ * Iconografía exclusiva del administrador. Recibe name (clave de sección) y size (28 por defecto).
+ * Reutiliza carpeta/estrella locales y dibuja las demás categorías con SVG y degradados clásicos.
+ * No cambia la navegación: Admin lo usa en el menú y las tarjetas del panel.
+ */
 import { useId, type ReactNode } from "react";
 import Icon from "../Icon";
 import star from "../../assets/img/estrella-icon.ico";
 
 // Iconos exclusivos del administrador: conservan los recursos originales y
 // completan las categorías con pequeños dibujos biselados de estilo clásico.
+// Recibe la sección y el tamaño; devuelve una imagen o SVG decorativo sin eventos propios.
 export default function AdminIcon({
   name,
   size = 28,
@@ -11,6 +19,7 @@ export default function AdminIcon({
   name: string;
   size?: number;
 }) {
+  // Identificador único por instancia para que varios iconos no mezclen sus degradados SVG.
   const id = useId();
   const metal = `url(#${id}-metal)`;
   const blue = `url(#${id}-blue)`;

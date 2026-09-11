@@ -1,4 +1,17 @@
+/*
+ * COPIA HISTÓRICA: src/src-backups/components/Skills.tsx
+ * No se importa desde src/main.tsx y está excluida de TypeScript y ESLint.
+ * Los comentarios describen esta copia; no implica que sus pantallas/rutas existan en la versión activa.
+ */
+/*
+ * Archivo: src/src-backups/components/Skills.tsx
+ * Propósito:
+ * Ventana de habilidades. Recibe skills (herramientas) y personal (habilidades personales).
+ * Agrupa las descripciones técnicas por categoría y muestra personal como etiquetas.
+ * No tiene estado ni efectos: cambia cuando Desktop le entrega otras props.
+ */
 import type { RecordData } from "../types";
+// Recibe dos listas y devuelve grupos técnicos y etiquetas personales, sin efectos.
 export default function Skills({
   skills,
   personal,

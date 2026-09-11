@@ -1,6 +1,14 @@
+/*
+ * Archivo: src/components/Contact.tsx
+ * Propósito:
+ * Ventana pública de contacto. Recibe links para SocialLinks y cv como URL opcional del currículum.
+ * Muestra email, redes y descarga del CV; usa el PDF público si no se configuró otra URL.
+ * Esta versión no tiene formulario ni envía mensajes al endpoint /api/contact.
+ */
 import type { RecordData } from "../types";
 import SocialLinks from "./SocialLinks";
 import Icon from "./Icon";
+// Recibe redes y CV; devuelve enlaces. Los clics los resuelve el navegador, no la API.
 export default function Contact({
   links,
   cv,

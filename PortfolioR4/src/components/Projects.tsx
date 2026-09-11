@@ -1,7 +1,16 @@
+/*
+ * Archivo: src/components/Projects.tsx
+ * Propósito:
+ * Explorador público de proyectos. Recibe projects (registros ya cargados por Desktop).
+ * Filtra en memoria por categoría y búsqueda, abre un detalle y muestra enlaces externos.
+ * ProjectCard presenta cada registro y ProjectLinks reutiliza los enlaces de demo y GitHub.
+ */
 import { useMemo, useState } from "react";
 import type { RecordData } from "../types";
 import Icon from "./Icon";
+// Recibe projects y devuelve filtros, tarjetas o detalle; no modifica los registros originales.
 export default function Projects({ projects }: { projects: RecordData[] }) {
+  // category y search filtran la lista; detail guarda el registro cuya ficha está abierta.
   const [category, setCategory] = useState("Todos"),
     [search, setSearch] = useState(""),
     [detail, setDetail] = useState<RecordData | null>(null);
@@ -117,6 +126,7 @@ export default function Projects({ projects }: { projects: RecordData[] }) {
     </>
   );
 }
+// Recibe project y devuelve sólo los enlaces disponibles; no consulta GitHub ni la demo.
 function ProjectLinks({ project }: { project: RecordData }) {
   return (
     <div className="project-links">
@@ -142,6 +152,7 @@ function ProjectLinks({ project }: { project: RecordData }) {
   );
 }
 
+// Recibe p y onSelect; dibuja un resumen y entrega p al padre cuando se pide más información.
 function ProjectCard({
   p,
   onSelect,

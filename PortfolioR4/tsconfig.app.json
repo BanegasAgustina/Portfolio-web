@@ -1,3 +1,4 @@
+/* Archivo: tsconfig.app.json. TypeScript para React y DOM. noEmit deja la generación a Vite; exclude omite copias históricas. */
 {
   "compilerOptions": {
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",

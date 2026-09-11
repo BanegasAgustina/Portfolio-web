@@ -1,3 +1,9 @@
+/*
+ * Archivo: src/Desktop.css
+ * Propósito:
+ * Distribución del escritorio público: accesos, ventanas superpuestas, contenido, herramientas y animaciones.
+ * Trabaja con las clases que asignan Desktop y Window, incluidas moved, maximized y minimizing.
+ */
 /* Ventanas sobre un escritorio acotado; el administrador conserva su propio flujo. */
 .desktop {
   position: fixed;
@@ -43,6 +49,7 @@
   display: block;
   text-align: right;
 }
+/* Accesos directos del escritorio y sus estados de interacción. */
 .desktop-icons {
   position: absolute;
   left: 12px;
@@ -72,6 +79,7 @@
   background: #326bc74a;
   border-color: #b4d2ff85;
 }
+/* Área de ventanas: posición, altura disponible y scroll dentro de cada ventana. */
 .workspace {
   position: absolute;
   inset: 105px 20px 56px 130px;
@@ -109,6 +117,7 @@
 .workspace > .xp-window:not(.active) > .titlebar {
   filter: saturate(0.6);
 }
+/* Posiciones iniciales por sección antes de que el usuario arrastre las ventanas. */
 .workspace > .window-about {
   --width: 560px;
   --x: 8%;
@@ -154,6 +163,7 @@
   flex: 1;
   min-height: 0;
 }
+/* Ajustes de contenido para las dimensiones del escritorio: perfil y cronología. */
 .desktop .property-tabs {
   padding: 10px 16px 0;
 }
@@ -203,6 +213,7 @@
   line-height: 1.6;
   margin: 8px 0;
 }
+/* Logos de las organizaciones reconocidas en Desktop.tsx. */
 .organization-logo {
   display: block;
   object-fit: contain;
@@ -219,6 +230,7 @@
   background: #303947;
   border: 1px solid #59606a;
 }
+/* Contacto público: correo, redes y botón de descarga del CV. */
 .contact-details {
   padding: 18px;
 }
@@ -256,6 +268,7 @@
   font-size: 12px;
   margin-top: 4px;
 }
+/* Herramientas: filtro, grilla de iconos y ayuda al señalar o seleccionar. */
 .tools-content {
   padding: 12px;
 }
@@ -304,6 +317,7 @@
   flex-shrink: 0;
   object-fit: contain;
 }
+/* Ayuda flotante: se oculta hasta hover, foco o selección; evita interceptar clics. */
 .xp-tooltip {
   position: absolute;
   top: 100%;
@@ -336,6 +350,7 @@
   visibility: visible;
   opacity: 1;
 }
+/* Tablet: reorganiza escritorio y ventanas para el espacio disponible. */
 @media (max-width: 900px) {
   .workspace {
     inset: 110px 12px 56px 118px;
@@ -377,6 +392,7 @@
     right: auto;
   }
 }
+/* Móvil: adapta accesos, tamaños de ventana y grilla de herramientas. */
 @media (max-width: 640px) {
   .desktop-brand {
     top: 5px;
@@ -452,6 +468,7 @@
   }
 }
 
+/* Arrastre: Window.tsx escribe --drag-x/--drag-y; maximizar tiene prioridad sobre esa posición. */
 .workspace > .xp-window.moved:not(.maximized) {
   left: clamp(0px, var(--drag-x), max(0px, calc(100% - var(--width))));
   top: clamp(0px, var(--drag-y), max(0px, calc(100% - 60px)));
@@ -470,6 +487,7 @@
 .workspace .titlebar:active {
   cursor: grabbing;
 }
+/* Animaciones de cerrar/minimizar coordinadas con el temporizador de Window.tsx. */
 .workspace > .closing {
   animation: xp-close 160ms ease-in forwards;
   pointer-events: none;
@@ -491,6 +509,7 @@
     scale: 0.9;
   }
 }
+/* Saludo de la mascota al aparecer. */
 .desktop-mascot {
   animation: mascot-hello 900ms ease-out;
 }
@@ -499,6 +518,7 @@
     rotate: -7deg;
   }
 }
+/* Aviso cuando falla actualizar datos pero aún existe una carga anterior. */
 .refresh-error {
   position: absolute;
   top: 76px;
@@ -527,6 +547,7 @@
     font-size: 11px;
   }
 }
+/* Respeta movimiento reducido en escritorio y animaciones. */
 @media (prefers-reduced-motion: reduce) {
   .desktop *,
   .desktop *::before,
@@ -536,6 +557,7 @@
   }
 }
 
+/* Mantiene la ayuda visible al seleccionar una herramienta con clic o toque. */
 .tool.selected-tool .xp-tooltip {
   visibility: visible;
   opacity: 1;

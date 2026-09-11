@@ -1,16 +1,30 @@
+/*
+ * Archivo: src/pages/Admin.tsx
+ * Propósito:
+ * Pantalla de administración, sin props. Usa api/send para hablar con Express, no con Supabase directamente.
+ * Comprueba la sesión, muestra el login o las secciones y coordina carga, edición y eliminación.
+ * Editor construye los formularios con fields; ConfirmDialog solicita confirmar una eliminación.
+ * Los callbacks actualizan el estado local después de recibir la respuesta del backend.
+ */
 import { useEffect, useState, type FormEvent } from "react";
 import { Link } from "react-router-dom";
 import waving from "../assets/img/icono saludando.png";
 import Window from "../components/Window";
 import AdminIcon from "../components/admin/AdminIcon";
 import "./Admin.css";
+// Formulario y confirmación reutilizables; fields vincula las claves de las secciones con sus controles.
 import Editor from "../components/admin/Editor";
 import ConfirmDialog from "../components/admin/ConfirmDialog";
 import { sections } from "../components/admin/fields";
 import { api, send } from "../services/api";
 import type { RecordData } from "../types";
 import { useTheme } from "../context/theme";
+// Sin props. Alterna comprobación de sesión, login y panel según auth; las mutaciones las autoriza el backend.
 export default function Admin() {
+  // auth: null mientras comprueba, false para login y true para panel; notice informa resultados.
+  // busy bloquea acciones durante operaciones; section elige la vista y rows guarda sus registros.
+  // editing: null sin formulario, {} al crear o registro al editar; remove guarda el ID a confirmar.
+  // loading/loadError describen la lectura; revision fuerza recarga; selectedMessage abre un mensaje.
   const [auth, setAuth] = useState<boolean | null>(null),
     [notice, setNotice] = useState(""),
     [busy, setBusy] = useState(false),
@@ -23,6 +37,8 @@ export default function Admin() {
     [selectedMessage, setSelectedMessage] = useState<RecordData | null>(null),
     [loadError, setLoadError] = useState("");
   const theme = useTheme();
+  // Al montar, GET /auth/me consulta la cookie de sesión; si falla, vuelve al login.
+  // El indicador cancelled evita escribir estado después de desmontar.
   useEffect(() => {
     let cancelled = false;
     const refresh = () =>
@@ -48,9 +64,12 @@ export default function Admin() {
       cancelled = true;
     };
   }, []);
+  // Vuelve a cargar cuando cambia auth, section o revision. Panel y configuración no necesitan registros.
+  // El perfil es un objeto único y abre directamente Editor; otras secciones reciben listas.
   useEffect(() => {
     if (!auth || ["dashboard", "settings"].includes(section)) return;
     let cancelled = false;
+    // GET /admin/<sección>: Express consulta la tabla correspondiente y devuelve los registros.
     api<RecordData[] | RecordData>(`/admin/${section}`)
       .then((v) => {
         if (!cancelled) {
@@ -69,6 +88,7 @@ export default function Admin() {
       cancelled = true;
     };
   }, [auth, section, revision]);
+  // Recibe la clave de sección; limpia selección/errores y dispara una recarga sin cambiar la URL /admin.
   function navigate(next: string) {
     setSection(next);
     setEditing(null);
@@ -78,6 +98,8 @@ export default function Admin() {
     setLoading(!["dashboard", "settings"].includes(next));
     setRevision((v) => v + 1);
   }
+  // Recibe el submit del formulario. POST /auth/login envía la contraseña; Express valida y emite la cookie.
+  // Al resolver, muestra el panel; el navegador conserva la cookie HttpOnly, no el estado auth de React.
   async function login(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setBusy(true);
@@ -93,6 +115,7 @@ export default function Admin() {
       setBusy(false);
     }
   }
+  // POST /auth/logout solicita cerrar la sesión; si responde bien, limpia registros y vuelve al login.
   async function logout() {
     setBusy(true);
     try {
@@ -109,6 +132,8 @@ export default function Admin() {
       setBusy(false);
     }
   }
+  // Recibe los campos normalizados de Editor. POST crea; PUT edita un ID o el perfil único.
+  // Al completar, cierra el editor y aumenta revision para leer lo guardado; propaga fallos a Editor.
   async function save(data: RecordData) {
     setBusy(true);
     try {
@@ -125,6 +150,8 @@ export default function Admin() {
       setBusy(false);
     }
   }
+  // Usa el ID pendiente en remove y envía DELETE; al completar limpia selección y vuelve a cargar.
+  // La API actual rechaza DELETE de mensajes con 404 aunque la interfaz ofrezca el botón.
   async function deleteRow() {
     setBusy(true);
     try {
@@ -140,6 +167,7 @@ export default function Admin() {
       setBusy(false);
     }
   }
+  // Recibe un mensaje, lo muestra y envía PUT si no estaba leído; el backend fija is_read=true.
   async function readMessage(row: RecordData) {
     setSelectedMessage(row);
     if (!row.is_read)

@@ -1,3 +1,10 @@
+/*
+ * Archivo: src/components/Window.tsx
+ * Propósito:
+ * Contenedor visual XP reutilizable. Recibe title, icon y children; className personaliza su aspecto.
+ * active, zIndex y hidden vienen del padre; onFocus, onClose y onMinimize notifican acciones al padre.
+ * Gestiona maximización, arrastre y animaciones de salida en estado local; no consulta datos.
+ */
 import {
   useEffect,
   useId,
@@ -7,6 +14,7 @@ import {
   type ReactNode,
 } from "react";
 import Icon from "./Icon";
+// Recibe contenido, identidad, estado visual y callbacks; devuelve el marco y la barra de una ventana XP.
 export default function Window({
   title,
   icon,
@@ -30,21 +38,28 @@ export default function Window({
   onMinimize?: () => void;
   onFocus?: () => void;
 }) {
+  // maximized controla tamaño completo y heading enlaza el título con aria-labelledby.
   const [maximized, setMaximized] = useState(false),
     heading = useId();
+  // element apunta a la ventana; drag conserva puntero y desplazamiento; timer permite cancelar la salida pendiente.
   const element = useRef<HTMLElement>(null);
   const drag = useRef<{ pointer: number; x: number; y: number } | null>(null);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // position conserva coordenadas de arrastre; null deja la ubicación inicial a CSS.
   const [position, setPosition] = useState<{ x: number; y: number } | null>(
     null,
   );
+  // leaving elige la clase de animación de cerrar o minimizar; vacío significa sin salida pendiente.
   const [leaving, setLeaving] = useState("");
+  // Registra limpieza al desmontar para cancelar el temporizador de salida y no ejecutar callbacks tardíos.
   useEffect(
     () => () => {
       if (timer.current) clearTimeout(timer.current);
     },
     [],
   );
+  // Recibe clase de animación y callback; espera su duración antes de notificar cerrar/minimizar.
+  // Con movimiento reducido ejecuta sin demora; evita iniciar otra salida si ya hay una en curso.
   function leave(kind: string, action?: () => void) {
     if (leaving) return;
     setLeaving(kind);
@@ -85,6 +100,7 @@ export default function Window({
             window.matchMedia("(max-width: 900px)").matches
           )
             return;
+          // Inicia el arrastre sólo desde la barra y en escritorio; recuerda dónde se agarró la ventana.
           const rect = element.current!.getBoundingClientRect();
           drag.current = {
             pointer: e.pointerId,
@@ -98,6 +114,7 @@ export default function Window({
           if (!drag.current || drag.current.pointer !== e.pointerId) return;
           const node = element.current!;
           const bounds = node.parentElement!.getBoundingClientRect();
+          // Limita las coordenadas al espacio del padre para que el arrastre no saque la ventana del escritorio.
           setPosition({
             x: Math.max(
               0,

@@ -1,3 +1,4 @@
+/* Archivo: tsconfig.node.json. TypeScript para vite.config.ts en Node; no compila el backend JavaScript. */
 {
   "compilerOptions": {
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",

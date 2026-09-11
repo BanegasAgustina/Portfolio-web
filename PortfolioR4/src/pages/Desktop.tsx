@@ -1,8 +1,17 @@
+/*
+ * Archivo: src/pages/Desktop.tsx
+ * Propósito:
+ * Pantalla pública, sin props. Obtiene Portfolio desde services/api y reparte sus datos entre ventanas XP.
+ * useWindowManager coordina ventanas; useClock muestra la hora y useTheme cambia la apariencia.
+ * Projects, Tools, Skills, Contact y SocialLinks reciben las listas ya cargadas.
+ * Perfil, experiencia, educación y notas se dibujan en este mismo archivo.
+ */
 import { useEffect, useState } from "react";
 import waving from "../assets/img/icono saludando.png";
 import schoolLogo from "../assets/img/Logo escuela.png";
 import companyLogo from "../assets/img/Logo_Nucleo_rojo-blanco.png";
 import avatar from "../assets/img/avatar-seccion-sobre mi.png";
+// Acceso a datos, tipos y hooks: separan la carga del contenido de su presentación XP.
 import { api } from "../services/api";
 import type { Portfolio, WindowId } from "../types";
 import { useClock, useWindowManager } from "../hooks/useDesktop";
@@ -24,7 +33,10 @@ const titles: Record<WindowId, string> = {
   contact: "Contacto",
   notes: "Bloc de notas",
 };
+// Sin props: carga el portfolio y devuelve accesos, ventanas, aviso de estado y barra de tareas.
 export default function Desktop() {
+  // data conserva la última carga correcta; error explica un fallo y attempt permite reintentar.
+  // more muestra u oculta el recorrido ampliado del perfil.
   const [data, setData] = useState<Portfolio | null>(null),
     [error, setError] = useState(""),
     [attempt, setAttempt] = useState(0),
@@ -33,9 +45,12 @@ export default function Desktop() {
     clock = useClock(),
     theme = useTheme();
   // Cancelar la actualización evita escribir sobre un componente desmontado.
+  // Carga al montar y al cambiar attempt; vuelve a leer al recuperar foco o recibir portfolio-content-changed.
+  // La limpieza retira listeners y descarta respuestas tardías; no cancela la petición de red.
   useEffect(() => {
     let cancelled = false;
     const load = () =>
+      // La ruta lógica /portfolio se resuelve con lecturas públicas de Supabase, no con GET a Express.
       api<Portfolio>("/portfolio")
         .then((v) => {
           if (!cancelled) {
@@ -55,6 +70,7 @@ export default function Desktop() {
       window.removeEventListener("portfolio-content-changed", load);
     };
   }, [attempt]);
+  // Recibe el identificador de ventana, la abre/restaura y mueve el foco cuando React termina de dibujar.
   const open = (id: WindowId) => {
     manager.open(id);
     // Esperamos el próximo dibujo de React para enfocar la ventana recién abierta.

@@ -1,9 +1,19 @@
+/*
+ * Archivo: src/components/Tools.tsx
+ * Propósito:
+ * Ventana de herramientas. Recibe skills y muestra un filtro de categorías, iconos y descripciones.
+ * La selección local permite abrir/cerrar el texto de ayuda al tocar una herramienta.
+ * Usa un icono personalizado del registro o TechnologyIcon según el nombre; no consulta la API.
+ */
 import { useMemo, useState } from "react";
 import type { RecordData } from "../types";
 import TechnologyIcon from "./TechnologyIcon";
+// Recibe skills y devuelve herramientas filtradas; sus eventos cambian categoría y selección local.
 export default function Tools({ skills }: { skills: RecordData[] }) {
+  // category guarda el filtro; selected guarda el ID cuya ayuda está abierta (undefined cierra la selección).
   const [category, setCategory] = useState("Todas");
   const [selected, setSelected] = useState<number | undefined>();
+  // Recalcula las categorías sin duplicados sólo cuando cambia la lista recibida.
   const categories = useMemo(
     () => Array.from(new Set(skills.map((s) => String(s.category)))),
     [skills],

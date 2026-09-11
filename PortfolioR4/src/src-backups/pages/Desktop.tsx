@@ -1,9 +1,23 @@
+/*
+ * COPIA HISTÓRICA: src/src-backups/pages/Desktop.tsx
+ * No se importa desde src/main.tsx y está excluida de TypeScript y ESLint.
+ * Los comentarios describen esta copia; no implica que sus pantallas/rutas existan en la versión activa.
+ */
+/*
+ * Archivo: src/src-backups/pages/Desktop.tsx
+ * Propósito:
+ * Pantalla pública, sin props. Obtiene Portfolio desde services/api y reparte sus datos entre ventanas XP.
+ * useWindowManager coordina ventanas; useClock muestra la hora y useTheme cambia la apariencia.
+ * Projects, Tools, Skills, Contact y SocialLinks reciben las listas ya cargadas.
+ * Perfil, experiencia, educación y notas se dibujan en este mismo archivo.
+ */
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import waving from "../assets/img/icono saludando.png";
 import schoolLogo from "../assets/img/Logo escuela.png";
 import companyLogo from "../assets/img/Logo_Nucleo_rojo-blanco.png";
 import avatar from "../assets/img/avatar-seccion-sobre mi.png";
+// Acceso a datos, tipos y hooks: separan la carga del contenido de su presentación XP.
 import { api } from "../services/api";
 import type { Portfolio, WindowId } from "../types";
 import { useClock, useWindowManager } from "../hooks/useDesktop";
@@ -27,9 +41,12 @@ const titles: Record<WindowId, string> = {
   notes: "Bloc de notas",
 };
 export default function Desktop() {
+  // data conserva la última carga correcta; error explica un fallo y attempt permite reintentar.
+  // more muestra u oculta el recorrido ampliado del perfil.
   const [data, setData] = useState<Portfolio | null>(null),
     [error, setError] = useState(""),
     [attempt, setAttempt] = useState(0),
+    // start controla el menú Inicio, presente únicamente en esta copia histórica.
     [start, setStart] = useState(false),
     [more, setMore] = useState(false);
   const manager = useWindowManager(),
@@ -37,9 +54,12 @@ export default function Desktop() {
     theme = useTheme(),
     menu = useRef<HTMLDivElement>(null);
   // Cancelar la actualización evita escribir sobre un componente desmontado.
+  // Carga al montar y al cambiar attempt; esta copia vuelve a leer al recuperar foco.
+  // La limpieza retira listeners y descarta respuestas tardías; no cancela la petición de red.
   useEffect(() => {
     let cancelled = false;
     const load = () =>
+      // Esta copia pide GET /api/portfolio mediante su adaptador antiguo.
       api<Portfolio>("/portfolio")
         .then((v) => {
           if (!cancelled) {
@@ -57,6 +77,7 @@ export default function Desktop() {
       window.removeEventListener("focus", load);
     };
   }, [attempt]);
+  // Al montar registra clic exterior y Escape para cerrar el menú; al desmontar retira ambos listeners.
   // useRef permite detectar clics fuera del menú sin buscar nodos globalmente.
   useEffect(() => {
     const close = (e: PointerEvent) => {

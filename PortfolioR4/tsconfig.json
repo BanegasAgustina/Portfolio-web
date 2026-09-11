@@ -1,3 +1,4 @@
+/* Archivo: tsconfig.json. Proyecto TypeScript raíz: tsc -b revisa las configuraciones referenciadas de frontend y Vite. */
 {
   "files": [],
   "references": [
