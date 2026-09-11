@@ -104,6 +104,19 @@ El cliente permite persistencia y renovación de tokens de Supabase Auth, pero e
 
 Los comentarios CSS separan propósito de cada bloque sin reordenar reglas ni cambiar propiedades. La especificidad de los selectores permite a `.admin-page ...` ajustar el panel sobre reglas base.
 
+### Distribución interna de las ventanas públicas
+
+La mejora visual posterior está comentada al final de `src/Desktop.css`, bajo “Contenido compartido de las ventanas”. Sus selectores se limitan a `.workspace`, por lo que no modifican el administrador. Reutiliza `--paper`, `--surface`, `--pale`, `--ink`, `--muted`, `--line` y `--blue` para mantener ambos temas.
+
+- El cuerpo de cada ventana define el contenedor CSS `window-content`. Las consultas de contenedor usan su ancho real: a 600 px o menos, Habilidades y Proyectos pasan a una columna; a 480 px o menos se reduce padding y las fichas colocan logo y datos verticalmente.
+- `Skills.tsx` mantiene todas las descripciones en `skills-panels`; cada `skill-panel` agrupa una categoría. `categoryIcon(category)` sólo elige un icono decorativo de `TechnologyIcon`, sin cambiar datos ni categorías. Las habilidades personales tienen su propio panel.
+- `Desktop.tsx` envuelve los datos de educación/experiencia en `record-details` dentro de `record-panel`. El logo existente queda al lado cuando hay ancho; sin logo reconocido la información ocupa toda la ficha. No modifica las condiciones que eligen los logos ni el contenido de los registros.
+- Los tamaños iniciales se definen por clase de ventana. Habilidades y Proyectos tienen mayor ancho y altura; Educación, Experiencia y Contacto conservan altura según contenido, limitada por el escritorio.
+- El scroll vertical permanece en `window-body`, con barra adaptada al tema. Sus hijos pueden encogerse y partir texto largo para evitar desbordes horizontales. Los controles siguen en la barra superior.
+- Las ayudas de Herramientas mantienen los disparadores de hover, foco y selección. Ahora aparecen dentro del panel de la herramienta, en lugar de quedar flotando fuera de sus bordes.
+
+El componente `Window.tsx` y `useWindowManager` mantienen sus eventos de arrastrar, minimizar, maximizar, restaurar y cerrar. La implementación revisada no incluye redimensionado manual; las consultas de contenedor también responden si cambia el ancho por CSS o por el espacio disponible.
+
 Al iniciar, el proveedor lee `localStorage['xp-theme']`. Si existe, usa `dark` o `light`; si no, consulta `prefers-color-scheme`. Al pulsar el control del tema se invierte `dark`; un efecto escribe `document.documentElement.dataset.theme` y guarda `xp-theme`. Los selectores `[data-theme="dark"]` cambian variables y algunos fondos. Si localStorage falla, el cambio visual sigue funcionando durante esa visita. El mismo proveedor sirve al escritorio y al administrador.
 
 ### Recursos y copias históricas

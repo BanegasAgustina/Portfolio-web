@@ -119,14 +119,22 @@
 }
 /* Posiciones iniciales por sección antes de que el usuario arrastre las ventanas. */
 .workspace > .window-about {
-  --width: 560px;
+  --width: 620px;
   --x: 8%;
   --y: 5%;
 }
 .workspace > .window-projects {
-  --width: 660px;
+  height: 650px;
+  --width: 860px;
   --x: 55%;
   --y: 18%;
+}
+/* Habilidades necesita más ancho para sus categorías; la altura sigue limitada por workspace. */
+.workspace > .window-skills {
+  --width: 820px;
+  --x: 28%;
+  --y: 6%;
+  height: 640px;
 }
 .workspace > .window-tools {
   --width: 720px;
@@ -134,17 +142,17 @@
   --y: 8%;
 }
 .workspace > .window-education {
-  --width: 420px;
+  --width: 650px;
   --x: 3%;
   --y: 12%;
 }
 .workspace > .window-experience {
-  --width: 470px;
+  --width: 640px;
   --x: 72%;
   --y: 15%;
 }
 .workspace > .window-contact {
-  --width: 380px;
+  --width: 460px;
   --x: 85%;
   --y: 32%;
 }
@@ -561,4 +569,460 @@
 .tool.selected-tool .xp-tooltip {
   visibility: visible;
   opacity: 1;
+}
+
+/* ========================================
+   CONTENIDO COMPARTIDO DE LAS VENTANAS
+   Sólo afecta al escritorio público. El ancho del cuerpo es el contenedor
+   de referencia, de modo que maximizar o estrechar una ventana reorganiza
+   su contenido sin cambiar el gestor de ventanas ni las consultas.
+   ======================================== */
+.workspace > .xp-window > .window-body {
+  container: window-content / inline-size;
+  flex: 1 1 auto;
+  font-size: 15px;
+  line-height: 1.6;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: auto;
+  scrollbar-color: var(--line) var(--surface);
+}
+/* El scroll queda dentro del cuerpo; la barra superior conserva sus controles. */
+.workspace .window-body::-webkit-scrollbar {
+  width: 15px;
+}
+.workspace .window-body::-webkit-scrollbar-track {
+  background: var(--surface);
+}
+.workspace .window-body::-webkit-scrollbar-thumb {
+  background: linear-gradient(90deg, var(--pale), var(--line));
+  border: 2px solid var(--surface);
+  border-radius: 2px;
+}
+/* Permite encoger los hijos flex/grid y cortar cadenas sin espacios antes de que desborden. */
+.workspace
+  .window-body
+  :where(
+    div,
+    section,
+    article,
+    p,
+    h1,
+    h2,
+    h3,
+    h4,
+    ul,
+    li,
+    span,
+    a,
+    button,
+    label
+  ) {
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+.workspace .titlebar {
+  height: auto;
+  min-height: 36px;
+  font-size: 14px;
+  padding-block: 4px;
+}
+.workspace .titlebar > span {
+  overflow-wrap: anywhere;
+}
+.workspace .window-actions {
+  flex-shrink: 0;
+}
+.workspace .content-pad,
+.workspace .tools-content,
+.workspace .contact-details {
+  padding: 24px;
+}
+.workspace .window-body h2,
+.workspace .content-pad h2,
+.workspace .contact-details h2 {
+  font-size: 26px;
+  line-height: 1.25;
+  margin: 0 0 12px;
+}
+.workspace .window-body h3 {
+  font-size: 18px;
+  line-height: 1.45;
+}
+.workspace .window-body h4 {
+  font-size: 16px;
+  line-height: 1.5;
+}
+.workspace .window-body p,
+.workspace .content-pad > p,
+.workspace .about-description > p,
+.workspace .project-card p,
+.workspace .contact-details p {
+  font-size: 15px;
+  line-height: 1.65;
+}
+.workspace
+  .window-body
+  :where(
+    small,
+    .hint,
+    .location,
+    .role,
+    .social-links a,
+    .eyebrow,
+    .avatar-caption
+  ) {
+  font-size: 14px;
+  line-height: 1.5;
+}
+.workspace .eyebrow {
+  display: block;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+.workspace .window-body button,
+.workspace .window-body input,
+.workspace .window-body select,
+.workspace .email-link,
+.workspace .download-cv {
+  font-size: 15px;
+  line-height: 1.45;
+}
+.workspace .window-body button,
+.workspace .window-body select,
+.workspace .window-body input {
+  min-height: 38px;
+}
+.workspace .window-body button:hover {
+  border-color: #d59a32;
+}
+.workspace .tags {
+  gap: 8px;
+}
+.workspace .tags span {
+  font-size: 14px;
+  padding: 5px 9px;
+}
+/* Breadcrumbs y barras de estado comparten superficies y contraste en ambos temas. */
+.workspace .explorer-toolbar {
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 11px 20px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink);
+  background: linear-gradient(var(--paper), var(--surface));
+}
+.workspace .explorer-toolbar b {
+  color: var(--muted);
+  padding-inline: 3px;
+}
+.workspace .statusbar {
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 9px 16px;
+  font-size: 14px;
+}
+.workspace .badge {
+  display: inline-block;
+  font-size: 14px;
+  line-height: 1.4;
+  background: var(--pale);
+  color: var(--blue);
+  border-color: var(--line);
+}
+
+/* Fichas de educación/experiencia: el logo original acompaña los datos completos.
+   Sin logo reconocido, el contenido aprovecha toda la ficha. */
+.workspace .record-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+  gap: 22px;
+  margin: 16px 0 0;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--blue);
+  background: linear-gradient(var(--paper), var(--surface));
+  box-shadow: inset 0 1px var(--paper);
+}
+.workspace .record-panel:has(> .organization-logo) {
+  grid-template-columns: 110px minmax(0, 1fr);
+}
+.workspace .record-panel .organization-logo {
+  margin: 4px auto 0;
+  max-width: 100%;
+}
+.workspace .record-panel .organization-logo.education {
+  width: 100px;
+  height: 130px;
+}
+.workspace .record-panel .organization-logo.experience {
+  width: 110px;
+  height: auto;
+  min-height: 48px;
+}
+.workspace .record-details h3 {
+  margin: 14px 0 8px;
+  font-size: 20px;
+}
+.workspace .record-details h4 {
+  margin: 0 0 12px;
+  color: var(--blue);
+}
+.workspace .record-details p {
+  margin: 0 0 12px;
+  font-size: 15px;
+}
+.workspace .record-details small {
+  display: block;
+  color: var(--muted);
+}
+
+/* Categorías de habilidades: dos paneles por fila en ventanas amplias.
+   La lista y su orden permanecen completos, sin recortes ni resúmenes. */
+.workspace .skills-panels {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+.workspace .skill-panel,
+.workspace .personal-skills-panel {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  padding: 18px;
+  box-shadow: inset 0 1px var(--paper);
+}
+.workspace .skill-panel h3 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--line);
+  color: var(--blue);
+}
+.workspace .skill-panel ul {
+  margin: 0;
+  padding-left: 20px;
+}
+.workspace .skill-panel li + li {
+  margin-top: 10px;
+}
+.workspace .skill-panel li::marker {
+  color: var(--blue);
+}
+.workspace .personal-skills-panel {
+  margin-top: 18px;
+}
+.workspace .personal-skills-panel h3 {
+  margin: 0 0 10px;
+}
+.workspace .personal-skills-panel .tags {
+  margin-bottom: 0;
+}
+
+/* Sobre mí mantiene avatar, pestañas, acciones y redes; sólo ajusta lectura y espacio. */
+.workspace .about-intro {
+  padding: 22px 24px 12px;
+  gap: 20px;
+}
+.workspace .about-text {
+  flex: 1;
+}
+.workspace .about-description {
+  padding: 12px 24px 24px;
+}
+.workspace .about-text h1 {
+  font-size: 28px;
+  line-height: 1.2;
+  letter-spacing: -0.8px;
+}
+.workspace .avatar-caption {
+  letter-spacing: 0;
+  padding: 4px 7px;
+}
+.workspace .property-tabs {
+  padding: 14px 20px 0;
+  flex-wrap: wrap;
+}
+.workspace .property-tabs > span,
+.workspace .property-tabs button {
+  font-size: 14px;
+  padding: 8px 12px;
+}
+.workspace .more-about {
+  padding-top: 18px;
+  margin-top: 20px;
+  font-size: 15px;
+}
+.workspace .social-links {
+  gap: 14px 22px;
+}
+
+/* Proyectos: paneles de explorador con imagen, descripción y acciones legibles. */
+.workspace .project-header {
+  padding: 24px 24px 16px;
+  gap: 16px;
+}
+.workspace .project-header h2 {
+  margin-top: 8px;
+}
+.workspace .project-header p {
+  margin: 0;
+}
+.workspace .project-controls {
+  padding: 0 24px 18px;
+  flex-wrap: wrap;
+}
+.workspace .project-controls .search {
+  flex-basis: 220px;
+}
+.workspace .project-controls select {
+  width: auto;
+  max-width: 100%;
+}
+.workspace .project-grid {
+  padding: 0 24px 24px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.workspace .project-card {
+  background: var(--surface);
+  box-shadow: inset 0 1px var(--paper);
+}
+.workspace .project-card-body {
+  padding: 18px;
+}
+.workspace .project-links {
+  flex-wrap: wrap;
+  font-size: 15px;
+  gap: 10px 18px;
+}
+.workspace .project-detail {
+  padding: 24px;
+}
+.workspace .empty-projects {
+  padding: 28px 24px;
+}
+.workspace .empty-projects h3,
+.workspace .empty-projects p {
+  max-width: 420px;
+}
+
+/* Herramientas: la ayuda conserva hover/foco/selección, pero fluye dentro del panel
+   para que una descripción larga nunca quede cortada por los bordes de la ventana. */
+.workspace .tools-filter {
+  flex-wrap: wrap;
+  font-size: 15px;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.workspace .tools-filter select {
+  max-width: 100%;
+  flex: 1 1 180px;
+  padding: 8px;
+}
+.workspace .tools-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  align-items: start;
+}
+.workspace .tool {
+  background: var(--surface);
+  border-color: var(--line);
+  padding: 16px 10px;
+  gap: 10px;
+  min-height: 112px;
+}
+.workspace .tool:nth-child(n) .xp-tooltip {
+  position: static;
+  display: none;
+  width: 100%;
+  max-width: 100%;
+  margin-top: 4px;
+  padding: 10px;
+  background: var(--pale);
+  color: var(--ink);
+  border-color: var(--line);
+  box-shadow: none;
+  font-size: 14px;
+}
+.workspace .tool:hover .xp-tooltip,
+.workspace .tool:focus-visible .xp-tooltip,
+.workspace .tool.selected-tool .xp-tooltip {
+  display: block;
+  visibility: visible;
+  opacity: 1;
+}
+/* Contacto conserva los enlaces actuales dentro de una ficha compacta de direcciones. */
+.workspace .contact-details .email-link {
+  padding: 14px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+}
+.workspace .download-cv {
+  padding: 10px 14px;
+}
+
+/* Las consultas usan el cuerpo de cada ventana, no el viewport del navegador.
+   También se aplican al maximizar/restaurar y ante cualquier cambio de ancho. */
+@container window-content (max-width: 600px) {
+  .workspace .skills-panels,
+  .workspace .project-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .workspace .tools-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@container window-content (max-width: 480px) {
+  .workspace .content-pad,
+  .workspace .contact-details,
+  .workspace .tools-content,
+  .workspace .project-detail {
+    padding: 18px 16px;
+  }
+  .workspace .record-panel {
+    padding: 18px;
+    gap: 16px;
+  }
+  .workspace .record-panel:has(> .organization-logo) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .workspace .record-panel .organization-logo {
+    margin: 0;
+  }
+  .workspace .record-panel .organization-logo.education {
+    width: 84px;
+    height: 104px;
+  }
+  .workspace .about-intro {
+    padding: 18px 16px 10px;
+    gap: 14px;
+  }
+  .workspace .about-description {
+    padding: 10px 16px 20px;
+  }
+  .workspace .avatar-scene {
+    width: 32%;
+  }
+  .workspace .about-text h1 {
+    font-size: 25px;
+  }
+  .workspace .project-header {
+    padding: 20px 16px 16px;
+  }
+  .workspace .project-controls {
+    padding: 0 16px 16px;
+  }
+  .workspace .project-grid {
+    padding: 0 16px 20px;
+  }
+  .workspace .explorer-toolbar {
+    padding: 10px 16px;
+  }
+  .workspace .tools-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }

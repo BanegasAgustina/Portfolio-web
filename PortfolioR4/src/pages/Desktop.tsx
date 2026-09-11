@@ -261,7 +261,11 @@ export default function Desktop() {
                         ? data.experiences
                         : data.education
                       ).map((item) => (
-                        <article className="timeline-item" key={item.id}>
+                        // Conserva todos los datos; la ficha separa el logo del texto para distribuirlos según el ancho disponible.
+                        <article
+                          className="timeline-item record-panel"
+                          key={item.id}
+                        >
                           {((id === "education" &&
                             /Amancio|EEST|Técnica.*5/i.test(
                               String(item.organization),
@@ -278,24 +282,26 @@ export default function Desktop() {
                               alt={`Logo de ${item.organization}`}
                             />
                           )}
-                          <span className="badge">
-                            {String(item.status || item.date || "")}
-                          </span>
-                          {item.icon && (
-                            <img
-                              src={String(item.icon)}
-                              alt=""
-                              width={32}
-                              height={32}
-                            />
-                          )}
-                          <h3>{String(item.title)}</h3>
-                          <h4>{String(item.organization || "")}</h4>
-                          <p>{String(item.description)}</p>
-                          <small>
-                            {String(item.location || "")}{" "}
-                            {String(item.date || "")}
-                          </small>
+                          <div className="record-details">
+                            <span className="badge">
+                              {String(item.status || item.date || "")}
+                            </span>
+                            {item.icon && (
+                              <img
+                                src={String(item.icon)}
+                                alt=""
+                                width={32}
+                                height={32}
+                              />
+                            )}
+                            <h3>{String(item.title)}</h3>
+                            <h4>{String(item.organization || "")}</h4>
+                            <p>{String(item.description)}</p>
+                            <small>
+                              {String(item.location || "")}{" "}
+                              {String(item.date || "")}
+                            </small>
+                          </div>
                         </article>
                       ))}
                     </div>

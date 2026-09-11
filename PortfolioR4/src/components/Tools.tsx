@@ -24,6 +24,8 @@ export default function Tools({ skills }: { skills: RecordData[] }) {
         Panel de control <b>›</b> Herramientas
       </div>
       <div className="tools-content">
+        {/* Encabezado compartido con las demás ventanas; el filtro conserva su estado y sus opciones. */}
+        <h2>Herramientas</h2>
         <label className="tools-filter">
           Ver por categoría{" "}
           <select
