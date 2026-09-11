@@ -6,7 +6,7 @@ Para estudiar el código, empezá por [DOCUMENTACION.md](DOCUMENTACION.md): incl
 
 ## Estructura del proyecto
 
-```text
+
 PortfolioR4/
 ├── src/
 │   ├── main.tsx                 Monta React en index.html.
