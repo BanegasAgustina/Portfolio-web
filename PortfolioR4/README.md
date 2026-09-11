@@ -4,7 +4,7 @@ Portfolio en React y TypeScript con una interfaz inspirada en Windows XP. La pan
 
 Para estudiar el código, empezá por [DOCUMENTACION.md](DOCUMENTACION.md): incluye el mapa de archivos, las consultas, los endpoints y el recorrido de los datos. Los archivos propios tienen comentarios en español; `src/src-backups` está identificado como código histórico.
 
-## Estructura del proyecto :
+## Estructura del proyecto 
 
 
 PortfolioR4/
