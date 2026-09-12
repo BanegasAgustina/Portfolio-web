@@ -8,6 +8,7 @@
 import { useMemo, useState } from "react";
 import type { RecordData } from "../types";
 import Icon from "./Icon";
+import "./Projects.css";
 // Recibe projects y devuelve filtros, tarjetas o detalle; no modifica los registros originales.
 export default function Projects({ projects }: { projects: RecordData[] }) {
   // category y search filtran la lista; detail guarda el registro cuya ficha está abierta.
@@ -27,7 +28,7 @@ export default function Projects({ projects }: { projects: RecordData[] }) {
     [projects, category, search],
   );
   return (
-    <>
+    <div className="projects-browser">
       <div className="explorer-toolbar">
         📂{" "}
         <span>
@@ -74,20 +75,30 @@ export default function Projects({ projects }: { projects: RecordData[] }) {
           <button onClick={() => setDetail(null)}>
             ← Volver a los proyectos
           </button>
-          <h2>{String(detail.title)}</h2>
-          {detail.image && (
-            <img src={String(detail.image)} alt={`Vista de ${detail.title}`} />
-          )}
-          <p>{String(detail.full_description || detail.description)}</p>
-          <p>
-            {String(detail.date)} · {String(detail.status)}
-          </p>
-          <div className="tags">
-            {(detail.technologies as string[]).map((t) => (
-              <span key={t}>{t}</span>
-            ))}
+          <div className="project-detail-layout">
+            <div className="project-detail-info">
+              <ProjectCategory project={detail} />
+              <h2>{String(detail.title)}</h2>
+              <p className="project-description">
+                {String(detail.full_description || detail.description)}
+              </p>
+              <ProjectStatus status={detail.status} />
+              {detail.date && (
+                <p className="project-date">{String(detail.date)}</p>
+              )}
+              <h3 className="project-tech-title">Tecnologías</h3>
+              <div className="tags">
+                {(detail.technologies as string[]).map((t) => (
+                  <span key={t}>{t}</span>
+                ))}
+              </div>
+              <ProjectLinks project={detail} />
+            </div>
+            <div className="project-detail-preview">
+              <div className="project-preview-caption">Vista del proyecto</div>
+              <ProjectImage project={detail} />
+            </div>
           </div>
-          <ProjectLinks project={detail} />
         </article>
       ) : visible.length ? (
         <div className="project-grid">
@@ -121,9 +132,12 @@ export default function Projects({ projects }: { projects: RecordData[] }) {
         </div>
       )}
       <div className="statusbar">
-        {visible.length} proyectos <span>Mi portfolio / Mis proyectos</span>
+        <span role="status">
+          {visible.length} {visible.length === 1 ? "proyecto" : "proyectos"}
+        </span>
+        <span>Mi portfolio › Mis proyectos</span>
       </div>
-    </>
+    </div>
   );
 }
 // Recibe project y devuelve sólo los enlaces disponibles; no consulta GitHub ni la demo.
@@ -162,28 +176,59 @@ function ProjectCard({
 }) {
   return (
     <article className="project-card">
-      {p.image ? (
-        <img src={String(p.image)} alt={`Vista de ${p.title}`} loading="lazy" />
-      ) : (
-        <div className="project-placeholder">
-          <Icon name="projects" size={64} />
-        </div>
-      )}
+      <ProjectImage project={p} />
       <div className="project-card-body">
-        <small>
-          {String(p.category)} {p.is_featured ? "· ★ Destacado" : ""}
-        </small>
+        <ProjectCategory project={p} />
         <h3>{String(p.title)}</h3>
-        <p className="badge">{String(p.status || "")}</p>
-        <p>{String(p.description)}</p>
+        <p className="project-description">{String(p.description)}</p>
+        <ProjectStatus status={p.status} />
+        <h4 className="project-tech-title">Tecnologías</h4>
         <div className="tags">
           {(p.technologies as string[]).map((t) => (
             <span key={t}>{t}</span>
           ))}
         </div>
-        <button onClick={() => onSelect(p)}>Más información →</button>
-        <ProjectLinks project={p} />
+        <div className="project-card-actions">
+          <button onClick={() => onSelect(p)}>Más información →</button>
+          <ProjectLinks project={p} />
+        </div>
       </div>
     </article>
+  );
+}
+
+// Presentación compartida entre la ficha y el detalle; conserva los valores del registro.
+function ProjectCategory({ project }: { project: RecordData }) {
+  return (
+    <div className="project-category">
+      <span>{String(project.category || "")}</span>
+      {project.is_featured && (
+        <span className="project-featured">★ Destacado</span>
+      )}
+    </div>
+  );
+}
+function ProjectStatus({ status }: { status: RecordData[string] }) {
+  if (!status) return null;
+  return (
+    <p className="project-status" data-status={String(status)}>
+      <span aria-hidden="true" />
+      {String(status)}
+    </p>
+  );
+}
+function ProjectImage({ project }: { project: RecordData }) {
+  return project.image ? (
+    <img
+      className="project-image"
+      src={String(project.image)}
+      alt={`Vista de ${project.title}`}
+      loading="lazy"
+    />
+  ) : (
+    <div className="project-placeholder">
+      <Icon name="projects" size={80} />
+      <span>Una idea, hecha proyecto</span>
+    </div>
   );
 }

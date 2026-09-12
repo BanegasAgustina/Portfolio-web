@@ -1,0 +1,394 @@
+/* Contenido interno del explorador: paleta XP aislada de las demás ventanas. */
+.workspace .projects-browser {
+  --projects-bg: #f5f6f1;
+  --projects-surface: #eeeee3;
+  --projects-card: #fff;
+  --projects-border: #bcc8d8;
+  --projects-text: #25364e;
+  --projects-muted: #586a80;
+  --projects-hover: #e8f0fc;
+  --projects-accent: #235b9e;
+  --projects-highlight: #fff;
+  --projects-shadow: #183b6214;
+  --projects-featured: #82601b;
+  background: var(--projects-bg);
+  color: var(--projects-text);
+  min-height: 100%;
+}
+[data-theme="dark"] .workspace .projects-browser {
+  --projects-bg: #1d2939;
+  --projects-surface: #2b3b4d;
+  --projects-card: #243345;
+  --projects-border: #4b6078;
+  --projects-text: #edf2f9;
+  --projects-muted: #bac8d9;
+  --projects-hover: #344c68;
+  --projects-accent: #a8cfff;
+  --projects-highlight: #ffffff16;
+  --projects-shadow: #0003;
+  --projects-featured: #e8cc88;
+}
+.workspace .projects-browser .explorer-toolbar {
+  border-bottom: 1px solid var(--projects-border);
+  font-size: 12px;
+}
+.workspace .projects-browser .project-header {
+  padding: 26px 24px 22px;
+  border-bottom: 1px solid var(--projects-border);
+  background: linear-gradient(
+    110deg,
+    var(--projects-card),
+    var(--projects-hover)
+  );
+}
+.workspace .projects-browser .project-header h2 {
+  font-size: clamp(28px, 4cqi, 36px);
+  color: var(--projects-accent);
+  margin: 4px 0 8px;
+}
+.workspace .projects-browser .eyebrow {
+  font-size: 10px;
+  letter-spacing: 1.6px;
+  color: var(--projects-muted);
+}
+.workspace .projects-browser .project-header > img {
+  width: 68px;
+  height: 68px;
+  flex-shrink: 0;
+  filter: drop-shadow(2px 4px 2px var(--projects-shadow));
+}
+.workspace .projects-browser .project-controls {
+  padding: 16px 24px;
+  gap: 12px;
+  background: var(--projects-surface);
+  border-bottom: 1px solid var(--projects-border);
+  margin-bottom: 22px;
+}
+.workspace .projects-browser .search {
+  border: 1px solid var(--projects-border);
+  border-radius: 3px;
+  padding-left: 13px;
+  box-shadow: inset 1px 2px 3px var(--projects-shadow);
+  transition:
+    border-color 160ms,
+    box-shadow 160ms;
+}
+.workspace .projects-browser .search > span {
+  font-size: 27px;
+  color: var(--projects-accent);
+}
+.workspace .projects-browser .search input {
+  min-height: 44px;
+  background: transparent;
+  padding: 10px 12px;
+}
+.workspace .projects-browser .search:focus-within {
+  border-color: var(--projects-accent);
+  box-shadow: 0 0 0 2px var(--projects-hover);
+}
+.workspace .projects-browser .project-controls select {
+  min-width: 145px;
+  min-height: 44px;
+  border-color: var(--projects-border);
+  cursor: pointer;
+}
+.workspace .projects-browser .project-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: 20px;
+  padding: 0 24px 24px;
+}
+.workspace .projects-browser .project-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--projects-border);
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--projects-card);
+  box-shadow: 0 3px 8px var(--projects-shadow);
+  transition:
+    transform 160ms,
+    box-shadow 160ms,
+    border-color 160ms;
+  animation: projects-appear 220ms ease-out;
+}
+@media (hover: hover) {
+  .workspace .projects-browser .project-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--projects-accent);
+    box-shadow: 0 7px 16px var(--projects-shadow);
+  }
+}
+.workspace .projects-browser .project-image {
+  display: block;
+  width: 100%;
+  height: 190px;
+  object-fit: cover;
+  border-bottom: 1px solid var(--projects-border);
+}
+.workspace .projects-browser .project-placeholder {
+  min-height: 190px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0 23px,
+      var(--projects-shadow) 24px
+    ),
+    linear-gradient(130deg, var(--projects-hover), var(--projects-surface));
+  border-bottom: 1px solid var(--projects-border);
+  color: var(--projects-muted);
+  font-size: 12px;
+}
+.workspace .projects-browser .project-card-body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.workspace .projects-browser .project-category {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  color: var(--projects-accent);
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+.workspace .projects-browser .project-featured {
+  color: var(--projects-featured);
+  font-size: 11px;
+}
+.workspace .projects-browser .project-card h3 {
+  font-size: 21px;
+  line-height: 1.3;
+  margin: 0 0 12px;
+}
+.workspace .projects-browser .project-description {
+  color: var(--projects-muted);
+  margin: 0 0 16px;
+  white-space: pre-line;
+}
+.workspace .projects-browser .project-status {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  margin: 0 0 18px;
+}
+.workspace .projects-browser .project-status > span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #8796a8;
+  flex-shrink: 0;
+}
+.workspace .projects-browser .project-status[data-status="Finalizado"] > span {
+  background: #6d9c73;
+}
+.workspace
+  .projects-browser
+  .project-status[data-status="En desarrollo"]
+  > span {
+  background: #c49b4c;
+}
+.workspace .projects-browser .project-tech-title {
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  margin: 0 0 8px;
+  color: var(--projects-muted);
+}
+.workspace .projects-browser .tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0 0 20px;
+}
+.workspace .projects-browser .tags span {
+  font-size: 12px;
+  padding: 4px 8px;
+  border: 1px solid var(--projects-border);
+  border-radius: 3px;
+  background: var(--projects-hover);
+  color: var(--projects-accent);
+}
+.workspace .projects-browser .project-card-actions {
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid var(--projects-border);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.workspace .projects-browser .project-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+}
+.workspace .projects-browser :is(button, .project-links a) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 9px 12px;
+  border: 1px solid var(--projects-border);
+  border-radius: 3px;
+  background: linear-gradient(var(--projects-card), var(--projects-surface));
+  color: var(--projects-text);
+  box-shadow:
+    inset 0 1px var(--projects-highlight),
+    0 1px 2px var(--projects-shadow);
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    border-color 150ms,
+    background 150ms,
+    transform 150ms;
+}
+.workspace .projects-browser .project-card-actions > button {
+  color: var(--projects-accent);
+  border-color: var(--projects-accent);
+}
+.workspace
+  .projects-browser
+  :is(button, .project-links a, select, .search):hover {
+  border-color: var(--projects-accent);
+}
+.workspace .projects-browser :is(button, .project-links a):hover {
+  background: var(--projects-hover);
+}
+.workspace .projects-browser :is(button, .project-links a):active {
+  transform: translateY(1px);
+  box-shadow: inset 0 1px 3px var(--projects-shadow);
+}
+.workspace .projects-browser :is(button, a, input, select):focus-visible {
+  outline: 2px solid var(--projects-accent);
+  outline-offset: 3px;
+}
+.workspace .projects-browser .project-detail {
+  padding: 0 24px 24px;
+}
+.workspace .projects-browser .project-detail-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: start;
+  gap: 24px;
+  padding: 24px;
+  margin-top: 18px;
+  background: var(--projects-card);
+  border: 1px solid var(--projects-border);
+  border-radius: 4px;
+  box-shadow: 0 3px 10px var(--projects-shadow);
+}
+.workspace .projects-browser .project-detail h2 {
+  font-size: 28px;
+}
+.workspace .projects-browser .project-date {
+  color: var(--projects-muted);
+  font-size: 12px;
+}
+.workspace .projects-browser .project-detail-preview {
+  border: 1px solid var(--projects-border);
+  padding: 4px;
+  background: var(--projects-surface);
+}
+.workspace .projects-browser .project-preview-caption {
+  padding: 6px 8px 10px;
+  color: var(--projects-muted);
+  font-size: 11px;
+}
+.workspace .projects-browser .project-detail .project-image {
+  height: auto;
+  max-height: 480px;
+  object-fit: contain;
+  border: 0;
+  margin: 0;
+}
+.workspace .projects-browser .project-detail .project-placeholder {
+  min-height: 270px;
+}
+.workspace .projects-browser .statusbar {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px;
+  gap: 4px;
+  min-height: 32px;
+  border-top: 1px solid var(--projects-border);
+  background: var(--projects-surface);
+  font-size: 11px;
+  color: var(--projects-muted);
+}
+.workspace .projects-browser .statusbar > span {
+  padding: 4px 10px;
+  border: 1px solid var(--projects-border);
+  box-shadow: inset 0 1px 2px var(--projects-shadow);
+}
+.workspace .projects-browser .statusbar > span:last-child {
+  flex: 1;
+  text-align: right;
+}
+.workspace .projects-browser .empty-projects {
+  padding: 32px 24px;
+}
+.workspace .projects-browser .empty-projects button {
+  margin-top: 20px;
+}
+@container window-content (max-width: 680px) {
+  .workspace .projects-browser .project-detail-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@container window-content (max-width: 480px) {
+  .workspace .projects-browser .project-header {
+    padding: 20px 16px;
+  }
+  .workspace .projects-browser .project-controls {
+    padding: 12px 16px;
+    flex-direction: column;
+  }
+  .workspace .projects-browser .project-controls .search {
+    flex-basis: auto;
+  }
+  .workspace .projects-browser .project-controls select {
+    width: 100%;
+  }
+  .workspace .projects-browser :is(.project-grid, .project-detail) {
+    padding: 0 16px 20px;
+  }
+  .workspace .projects-browser .project-detail-layout {
+    padding: 16px;
+    gap: 20px;
+  }
+  .workspace .projects-browser .project-card-actions > button {
+    width: 100%;
+  }
+}
+@keyframes projects-appear {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .workspace .projects-browser *,
+  .workspace .projects-browser *::before {
+    animation: none !important;
+    transition: none !important;
+  }
+  .workspace .projects-browser .project-card:hover {
+    transform: none;
+  }
+}
