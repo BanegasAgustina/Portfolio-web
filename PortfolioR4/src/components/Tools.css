@@ -1,0 +1,292 @@
+/* The palette is scoped to the content of Herramientas; window chrome is untouched. */
+.workspace .tools-browser {
+  --tools-bg: #f4f5ef;
+  --tools-card-bg: #ffffff;
+  --tools-surface: #eeeee4;
+  --tools-border: #c1cbd7;
+  --tools-text: #293c53;
+  --tools-muted: #5b6c80;
+  --tools-hover: #edf4ff;
+  --tools-accent: #245d9e;
+  --tools-shadow: #1b385516;
+  --tools-inset: #ffffff;
+  min-height: 100%;
+  background: var(--tools-bg);
+  color: var(--tools-text);
+}
+[data-theme="dark"] .workspace .tools-browser {
+  --tools-bg: #1e2b3b;
+  --tools-card-bg: #29394d;
+  --tools-surface: #253346;
+  --tools-border: #4b6077;
+  --tools-text: #edf3fa;
+  --tools-muted: #bfccdc;
+  --tools-hover: #324963;
+  --tools-accent: #a4ceff;
+  --tools-shadow: #00000026;
+  --tools-inset: #ffffff12;
+}
+.workspace .tools-browser .explorer-toolbar {
+  padding: 10px 22px;
+  border-bottom: 1px solid var(--tools-border);
+  background: linear-gradient(var(--tools-card-bg), var(--tools-surface));
+  font-size: 12px;
+}
+.workspace .tools-browser .tools-content {
+  padding: 0 22px 24px;
+}
+.workspace .tools-browser .tools-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 24px 0 20px;
+  border-bottom: 1px solid var(--tools-border);
+  box-shadow: 0 1px var(--tools-inset);
+}
+.workspace .tools-browser .tools-eyebrow {
+  display: block;
+  margin-bottom: 7px;
+  color: var(--tools-muted);
+  font-size: 10px;
+  letter-spacing: 1.4px;
+  font-weight: 700;
+}
+.workspace .tools-browser .tools-header h2 {
+  margin: 0 0 8px;
+  font-size: clamp(26px, 3.5cqi, 32px);
+  color: var(--tools-accent);
+}
+.workspace .tools-browser .tools-header p {
+  margin: 0;
+  color: var(--tools-muted);
+  font-size: 13px;
+  line-height: 1.6;
+  max-width: 540px;
+}
+.workspace .tools-browser .tools-header > img {
+  flex-shrink: 0;
+  filter: drop-shadow(1px 3px 2px var(--tools-shadow));
+}
+.workspace .tools-browser .tools-filter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 0;
+  margin: 0 0 4px;
+  color: var(--tools-muted);
+  font-size: 12px;
+  font-weight: 600;
+}
+.workspace .tools-browser .tools-filter select {
+  flex: 0 1 250px;
+  width: 250px;
+  max-width: 100%;
+  min-height: 38px;
+  padding: 8px 30px 8px 10px;
+  border: 1px solid var(--tools-border);
+  border-radius: 3px;
+  background-color: var(--tools-card-bg);
+  color: var(--tools-text);
+  box-shadow: inset 0 1px 2px var(--tools-shadow);
+  font-size: 12px;
+  cursor: pointer;
+  transition: border-color 160ms;
+}
+.workspace .tools-browser .tools-filter select:hover {
+  border-color: var(--tools-accent);
+}
+.workspace .tools-browser .tools-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 180px), 1fr));
+  gap: 12px;
+  align-items: start;
+}
+.workspace .tools-browser .tool {
+  display: grid;
+  grid-template-columns: 50px minmax(0, 1fr);
+  align-items: center;
+  align-content: center;
+  gap: 10px;
+  min-height: 104px;
+  padding: 14px 12px;
+  border: 1px solid var(--tools-border);
+  border-radius: 4px;
+  background: linear-gradient(
+    145deg,
+    var(--tools-card-bg),
+    var(--tools-surface)
+  );
+  color: var(--tools-text);
+  box-shadow:
+    inset 0 1px var(--tools-inset),
+    0 2px 4px var(--tools-shadow);
+  text-align: left;
+  font-family: Tahoma, "Segoe UI", sans-serif;
+  transition:
+    background 160ms,
+    border-color 160ms,
+    box-shadow 160ms,
+    transform 160ms;
+  animation: tools-appear 180ms ease-out;
+}
+.workspace .tools-browser .tool-logo-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  padding: 5px;
+  border: 1px solid #d7dfe7;
+  border-radius: 4px;
+  background: #fff;
+}
+.workspace .tools-browser .tool-logo {
+  display: block;
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+.workspace .tools-browser .tool-info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.workspace .tools-browser .tool-name {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+.workspace .tools-browser .tool-category {
+  color: var(--tools-muted);
+  font-size: 11px;
+  line-height: 1.4;
+}
+.workspace .tools-browser .tool-level {
+  color: var(--tools-accent);
+  font-size: 10px;
+  line-height: 1.3;
+}
+.workspace .tools-browser .tool.selected-tool {
+  border-color: var(--tools-accent);
+  background: var(--tools-hover);
+  box-shadow:
+    inset 3px 0 var(--tools-accent),
+    0 2px 5px var(--tools-shadow);
+}
+@media (hover: hover) {
+  .workspace .tools-browser .tool:hover {
+    transform: translateY(-2px);
+    border-color: var(--tools-accent);
+    background: var(--tools-hover);
+    box-shadow: 0 5px 10px var(--tools-shadow);
+  }
+}
+.workspace .tools-browser :is(.tool, select):focus-visible {
+  outline: 2px solid var(--tools-accent);
+  outline-offset: 3px;
+}
+.workspace .tools-browser .tool:active {
+  transform: translateY(1px);
+}
+.workspace .tools-browser .tool:nth-child(n) .xp-tooltip {
+  grid-column: 1 / -1;
+  position: static;
+  width: 100%;
+  max-width: 100%;
+  margin-top: 3px;
+  padding: 10px 0 0;
+  border: 0;
+  border-top: 1px solid var(--tools-border);
+  background: transparent;
+  color: var(--tools-text);
+  font:
+    12px/1.6 Tahoma,
+    "Segoe UI",
+    sans-serif;
+  text-align: left;
+}
+.workspace .tools-browser .xp-tooltip strong {
+  color: var(--tools-accent);
+  font-weight: 600;
+}
+.workspace .tools-browser .statusbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+  min-height: 32px;
+  border-top: 1px solid var(--tools-border);
+  background: var(--tools-surface);
+  color: var(--tools-muted);
+  font-size: 11px;
+}
+.workspace .tools-browser .statusbar > span {
+  padding: 5px 9px;
+  border: 1px solid var(--tools-border);
+  box-shadow: inset 0 1px 2px var(--tools-shadow);
+}
+.workspace .tools-browser .statusbar > span:last-child {
+  flex: 1;
+}
+@container window-content (max-width: 480px) {
+  .workspace .tools-browser .tools-content {
+    padding: 0 14px 20px;
+  }
+  .workspace .tools-browser .tools-header {
+    padding: 20px 0 16px;
+    gap: 12px;
+  }
+  .workspace .tools-browser .tools-header > img {
+    width: 44px;
+    height: 44px;
+  }
+  .workspace .tools-browser .tools-grid {
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 150px), 1fr));
+    gap: 10px;
+  }
+  .workspace .tools-browser .tool {
+    padding: 12px 10px;
+    grid-template-columns: 44px minmax(0, 1fr);
+    gap: 8px;
+    min-height: 96px;
+  }
+  .workspace .tools-browser .tool-logo-wrapper {
+    width: 44px;
+    height: 44px;
+    padding: 3px;
+  }
+  .workspace .tools-browser .tool-logo {
+    width: 36px;
+    height: 36px;
+  }
+  .workspace .tools-browser .tools-filter select {
+    flex-shrink: 1;
+  }
+  .workspace .tools-browser .statusbar > span:last-child {
+    flex-basis: 200px;
+  }
+}
+@keyframes tools-appear {
+  from {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .workspace .tools-browser * {
+    animation: none !important;
+    transition: none !important;
+  }
+  .workspace .tools-browser .tool:hover,
+  .workspace .tools-browser .tool:active {
+    transform: none;
+  }
+}

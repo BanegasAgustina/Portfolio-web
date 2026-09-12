@@ -1,0 +1,212 @@
+{
+  "openai": {
+    "library": "Simple Icons",
+    "version": "11.15.0",
+    "source": "https://cdn.jsdelivr.net/npm/simple-icons@11.15.0/icons/openai.svg"
+  },
+  "microsoftword": {
+    "library": "Simple Icons",
+    "version": "11.15.0",
+    "source": "https://cdn.jsdelivr.net/npm/simple-icons@11.15.0/icons/microsoftword.svg"
+  },
+  "microsoftexcel": {
+    "library": "Simple Icons",
+    "version": "11.15.0",
+    "source": "https://cdn.jsdelivr.net/npm/simple-icons@11.15.0/icons/microsoftexcel.svg"
+  },
+  "microsoftpowerpoint": {
+    "library": "Simple Icons",
+    "version": "11.15.0",
+    "source": "https://cdn.jsdelivr.net/npm/simple-icons@11.15.0/icons/microsoftpowerpoint.svg"
+  },
+  "microsoftoutlook": {
+    "library": "Simple Icons",
+    "version": "11.15.0",
+    "source": "https://cdn.jsdelivr.net/npm/simple-icons@11.15.0/icons/microsoftoutlook.svg"
+  },
+  "microsoftonenote": {
+    "library": "Simple Icons",
+    "version": "11.15.0",
+    "source": "https://cdn.jsdelivr.net/npm/simple-icons@11.15.0/icons/microsoftonenote.svg"
+  },
+  "microsoftteams": {
+    "library": "Simple Icons",
+    "version": "11.15.0",
+    "source": "https://cdn.jsdelivr.net/npm/simple-icons@11.15.0/icons/microsoftteams.svg"
+  },
+  "microsoftaccess": {
+    "library": "Simple Icons",
+    "version": "11.15.0",
+    "source": "https://cdn.jsdelivr.net/npm/simple-icons@11.15.0/icons/microsoftaccess.svg"
+  },
+  "googledrive": {
+    "library": "Simple Icons",
+    "version": "11.15.0",
+    "source": "https://cdn.jsdelivr.net/npm/simple-icons@11.15.0/icons/googledrive.svg"
+  },
+  "googledocs": {
+    "library": "Simple Icons",
+    "version": "11.15.0",
+    "source": "https://cdn.jsdelivr.net/npm/simple-icons@11.15.0/icons/googledocs.svg"
+  },
+  "googlesheets": {
+    "library": "Simple Icons",
+    "version": "11.15.0",
+    "source": "https://cdn.jsdelivr.net/npm/simple-icons@11.15.0/icons/googlesheets.svg"
+  },
+  "googleslides": {
+    "library": "Simple Icons",
+    "version": "11.15.0",
+    "source": "https://cdn.jsdelivr.net/npm/simple-icons@11.15.0/icons/googleslides.svg"
+  },
+  "googleforms": {
+    "library": "Simple Icons",
+    "version": "11.15.0",
+    "source": "https://cdn.jsdelivr.net/npm/simple-icons@11.15.0/icons/googleforms.svg"
+  },
+  "gmail": {
+    "library": "Simple Icons",
+    "version": "11.15.0",
+    "source": "https://cdn.jsdelivr.net/npm/simple-icons@11.15.0/icons/gmail.svg"
+  },
+  "googlemeet": {
+    "library": "Simple Icons",
+    "version": "11.15.0",
+    "source": "https://cdn.jsdelivr.net/npm/simple-icons@11.15.0/icons/googlemeet.svg"
+  },
+  "googlecalendar": {
+    "library": "Simple Icons",
+    "version": "11.15.0",
+    "source": "https://cdn.jsdelivr.net/npm/simple-icons@11.15.0/icons/googlecalendar.svg"
+  },
+  "google": {
+    "library": "Simple Icons",
+    "version": "11.15.0",
+    "source": "https://cdn.jsdelivr.net/npm/simple-icons@11.15.0/icons/google.svg"
+  },
+  "canva": {
+    "library": "Simple Icons",
+    "version": "11.15.0",
+    "source": "https://cdn.jsdelivr.net/npm/simple-icons@11.15.0/icons/canva.svg"
+  },
+  "xampp": {
+    "library": "Simple Icons",
+    "version": "11.15.0",
+    "source": "https://cdn.jsdelivr.net/npm/simple-icons@11.15.0/icons/xampp.svg"
+  },
+  "claude": {
+    "library": "Simple Icons",
+    "version": "13.21.0",
+    "source": "https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/claude.svg"
+  },
+  "html5": {
+    "library": "Devicon",
+    "version": "2.16.0",
+    "source": "https://raw.githubusercontent.com/devicons/devicon/v2.16.0/icons/html5/html5-original.svg"
+  },
+  "css3": {
+    "library": "Devicon",
+    "version": "2.16.0",
+    "source": "https://raw.githubusercontent.com/devicons/devicon/v2.16.0/icons/css3/css3-original.svg"
+  },
+  "javascript": {
+    "library": "Devicon",
+    "version": "2.16.0",
+    "source": "https://raw.githubusercontent.com/devicons/devicon/v2.16.0/icons/javascript/javascript-original.svg"
+  },
+  "typescript": {
+    "library": "Devicon",
+    "version": "2.16.0",
+    "source": "https://raw.githubusercontent.com/devicons/devicon/v2.16.0/icons/typescript/typescript-original.svg"
+  },
+  "react": {
+    "library": "Devicon",
+    "version": "2.16.0",
+    "source": "https://raw.githubusercontent.com/devicons/devicon/v2.16.0/icons/react/react-original.svg"
+  },
+  "nodejs": {
+    "library": "Devicon",
+    "version": "2.16.0",
+    "source": "https://raw.githubusercontent.com/devicons/devicon/v2.16.0/icons/nodejs/nodejs-original.svg"
+  },
+  "express": {
+    "library": "Devicon",
+    "version": "2.16.0",
+    "source": "https://raw.githubusercontent.com/devicons/devicon/v2.16.0/icons/express/express-original.svg"
+  },
+  "vitejs": {
+    "library": "Devicon",
+    "version": "2.16.0",
+    "source": "https://raw.githubusercontent.com/devicons/devicon/v2.16.0/icons/vitejs/vitejs-original.svg"
+  },
+  "bootstrap": {
+    "library": "Devicon",
+    "version": "2.16.0",
+    "source": "https://raw.githubusercontent.com/devicons/devicon/v2.16.0/icons/bootstrap/bootstrap-original.svg"
+  },
+  "mysql": {
+    "library": "Devicon",
+    "version": "2.16.0",
+    "source": "https://raw.githubusercontent.com/devicons/devicon/v2.16.0/icons/mysql/mysql-original.svg"
+  },
+  "postgresql": {
+    "library": "Devicon",
+    "version": "2.16.0",
+    "source": "https://raw.githubusercontent.com/devicons/devicon/v2.16.0/icons/postgresql/postgresql-original.svg"
+  },
+  "supabase": {
+    "library": "Devicon",
+    "version": "2.16.0",
+    "source": "https://raw.githubusercontent.com/devicons/devicon/v2.16.0/icons/supabase/supabase-original.svg"
+  },
+  "git": {
+    "library": "Devicon",
+    "version": "2.16.0",
+    "source": "https://raw.githubusercontent.com/devicons/devicon/v2.16.0/icons/git/git-original.svg"
+  },
+  "github": {
+    "library": "Devicon",
+    "version": "2.16.0",
+    "source": "https://raw.githubusercontent.com/devicons/devicon/v2.16.0/icons/github/github-original.svg"
+  },
+  "cplusplus": {
+    "library": "Devicon",
+    "version": "2.16.0",
+    "source": "https://raw.githubusercontent.com/devicons/devicon/v2.16.0/icons/cplusplus/cplusplus-original.svg"
+  },
+  "java": {
+    "library": "Devicon",
+    "version": "2.16.0",
+    "source": "https://raw.githubusercontent.com/devicons/devicon/v2.16.0/icons/java/java-original.svg"
+  },
+  "vscode": {
+    "library": "Devicon",
+    "version": "2.16.0",
+    "source": "https://raw.githubusercontent.com/devicons/devicon/v2.16.0/icons/vscode/vscode-original.svg"
+  },
+  "figma": {
+    "library": "Devicon",
+    "version": "2.16.0",
+    "source": "https://raw.githubusercontent.com/devicons/devicon/v2.16.0/icons/figma/figma-original.svg"
+  },
+  "linux": {
+    "library": "Devicon",
+    "version": "2.16.0",
+    "source": "https://raw.githubusercontent.com/devicons/devicon/v2.16.0/icons/linux/linux-original.svg"
+  },
+  "windows11": {
+    "library": "Devicon",
+    "version": "2.16.0",
+    "source": "https://raw.githubusercontent.com/devicons/devicon/v2.16.0/icons/windows11/windows11-original.svg"
+  },
+  "microsoftoffice": {
+    "library": "Simple Icons",
+    "version": "9.21.0",
+    "source": "https://cdn.jsdelivr.net/npm/simple-icons@9.21.0/icons/microsoftoffice.svg"
+  },
+  "capcut": {
+    "library": "CapCut official website",
+    "source": "https://sf16-web-tos-buz.capcutstatic.com/obj/capcut-web-buz-sg/common/images/lv_web-2.ico",
+    "conversion": "Embedded ICO image exported to PNG; artwork unchanged."
+  }
+}

@@ -3,11 +3,13 @@
  * Propósito:
  * Ventana de herramientas. Recibe skills y muestra un filtro de categorías, iconos y descripciones.
  * La selección local permite abrir/cerrar el texto de ayuda al tocar una herramienta.
- * Usa un icono personalizado del registro o TechnologyIcon según el nombre; no consulta la API.
+ * Usa ToolLogo para mostrar archivos locales; no consulta ni modifica la API.
  */
 import { useMemo, useState } from "react";
 import type { RecordData } from "../types";
-import TechnologyIcon from "./TechnologyIcon";
+import ToolLogo from "./ToolLogo";
+import Icon from "./Icon";
+import "./Tools.css";
 
 const categoryOrder = [
   "Desarrollo web",
@@ -26,7 +28,10 @@ const categoryOrder = [
 // Recibe skills y devuelve herramientas filtradas; sus eventos cambian categoría y selección local.
 export default function Tools({ skills }: { skills: RecordData[] }) {
   const visibleSkills = useMemo(
-    () => skills.filter((skill) => String(skill.name).trim().toLowerCase() !== "postman"),
+    () =>
+      skills.filter(
+        (skill) => String(skill.name).trim().toLowerCase() !== "postman",
+      ),
     [skills],
   );
   // category guarda el filtro; selected guarda el ID cuya ayuda está abierta (undefined cierra la selección).
@@ -37,9 +42,12 @@ export default function Tools({ skills }: { skills: RecordData[] }) {
     () =>
       Array.from(new Set(visibleSkills.map((s) => String(s.category)))).sort(
         (a, b) =>
-          (categoryOrder.indexOf(a) === -1 ? categoryOrder.length : categoryOrder.indexOf(a)) -
-          (categoryOrder.indexOf(b) === -1 ? categoryOrder.length : categoryOrder.indexOf(b)) ||
-          a.localeCompare(b),
+          (categoryOrder.indexOf(a) === -1
+            ? categoryOrder.length
+            : categoryOrder.indexOf(a)) -
+            (categoryOrder.indexOf(b) === -1
+              ? categoryOrder.length
+              : categoryOrder.indexOf(b)) || a.localeCompare(b),
       ),
     [visibleSkills],
   );
@@ -54,15 +62,24 @@ export default function Tools({ skills }: { skills: RecordData[] }) {
     [visibleSkills],
   );
   return (
-    <>
+    <div className="tools-browser">
       <div className="explorer-toolbar">
         Panel de control <b>›</b> Herramientas
       </div>
       <div className="tools-content">
-        {/* Encabezado compartido con las demás ventanas; el filtro conserva su estado y sus opciones. */}
-        <h2>Herramientas</h2>
+        <header className="tools-header">
+          <div>
+            <span className="tools-eyebrow">MI CAJA DE HERRAMIENTAS</span>
+            <h2>Herramientas</h2>
+            <p>
+              Tecnologías, plataformas y herramientas que forman parte de mi
+              flujo de trabajo.
+            </p>
+          </div>
+          <Icon name="tools" size={56} />
+        </header>
         <label className="tools-filter">
-          Ver por categoría{" "}
+          Ver por categoría
           <select
             value={category}
             onChange={(e) => setCategory(e.target.value)}
@@ -73,7 +90,7 @@ export default function Tools({ skills }: { skills: RecordData[] }) {
             ))}
           </select>
         </label>
-        <div className="tools-grid">
+        <div className="tools-grid" key={category}>
           {orderedSkills
             .filter((s) => category === "Todas" || s.category === category)
             .map((s) => (
@@ -82,21 +99,24 @@ export default function Tools({ skills }: { skills: RecordData[] }) {
                 onClick={() =>
                   setSelected(selected === s.id ? undefined : s.id)
                 }
+                aria-label={String(s.name)}
                 aria-expanded={selected === s.id}
                 key={s.id}
                 aria-describedby={`tip-${s.id}`}
               >
-                {s.icon ? (
-                  <img
-                    className="technology-icon"
-                    src={String(s.icon)}
-                    alt=""
+                <span className="tool-logo-wrapper">
+                  <ToolLogo
+                    name={String(s.name)}
+                    icon={s.icon ? String(s.icon) : undefined}
                   />
-                ) : (
-                  <TechnologyIcon name={String(s.name)} />
-                )}
-                <span>{String(s.name)}</span>
-                {s.level && <small>{String(s.level)}</small>}
+                </span>
+                <span className="tool-info">
+                  <span className="tool-name">{String(s.name)}</span>
+                  <span className="tool-category">{String(s.category)}</span>
+                  {s.level && (
+                    <small className="tool-level">{String(s.level)}</small>
+                  )}
+                </span>
                 <span className="xp-tooltip" id={`tip-${s.id}`} role="tooltip">
                   <strong>{String(s.category)}</strong>
                   <br />
@@ -107,13 +127,16 @@ export default function Tools({ skills }: { skills: RecordData[] }) {
         </div>
       </div>
       <div className="statusbar">
-        {
-          visibleSkills.filter(
-            (s) => category === "Todas" || s.category === category,
-          ).length
-        }{" "}
-        herramientas · Tocá o señalá un icono para conocer su uso.
+        <span role="status">
+          {
+            visibleSkills.filter(
+              (s) => category === "Todas" || s.category === category,
+            ).length
+          }{" "}
+          herramientas
+        </span>
+        <span>Tocá o señalá una herramienta para conocer su uso.</span>
       </div>
-    </>
+    </div>
   );
 }
