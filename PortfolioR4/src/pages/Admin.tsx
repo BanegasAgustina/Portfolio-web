@@ -35,8 +35,15 @@ export default function Admin() {
     [loading, setLoading] = useState(false),
     [revision, setRevision] = useState(0),
     [selectedMessage, setSelectedMessage] = useState<RecordData | null>(null),
-    [loadError, setLoadError] = useState("");
+    [loadError, setLoadError] = useState(""),
+    [showScrollTop, setShowScrollTop] = useState(false);
   const theme = useTheme();
+  useEffect(() => {
+    const updateScrollButton = () => setShowScrollTop(window.scrollY > 360);
+    updateScrollButton();
+    window.addEventListener("scroll", updateScrollButton, { passive: true });
+    return () => window.removeEventListener("scroll", updateScrollButton);
+  }, []);
   // Al montar, GET /auth/me consulta la cookie de sesión; si falla, vuelve al login.
   // El indicador cancelled evita escribir estado después de desmontar.
   useEffect(() => {
@@ -261,6 +268,14 @@ export default function Admin() {
                 </div>
               )}
               <header>
+                {section !== "dashboard" && (
+                  <button
+                    className="admin-back-to-dashboard"
+                    onClick={() => navigate("dashboard")}
+                  >
+                    ← Panel de control
+                  </button>
+                )}
                 <h2>{sections[section]}</h2>
                 {!["dashboard", "settings", "messages", "profile"].includes(
                   section,
@@ -394,6 +409,16 @@ export default function Admin() {
           onCancel={() => setRemove(null)}
           onConfirm={() => void deleteRow()}
         />
+      )}
+      {showScrollTop && (
+        <button
+          className="admin-scroll-top"
+          type="button"
+          aria-label="Volver arriba"
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        >
+          ↑ Arriba
+        </button>
       )}
     </main>
   );

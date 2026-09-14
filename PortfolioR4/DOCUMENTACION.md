@@ -186,7 +186,7 @@ No se muestran valores reales. `.env.example` documenta las variables públicas 
 | `VITE_SUPABASE_URL` | URL pública HTTPS para el cliente del navegador. |
 | `VITE_SUPABASE_ANON_KEY` | Clave pública anon/publishable; queda incluida en el frontend. |
 | `SUPABASE_URL` | URL del cliente privado del servidor y origen permitido en CSP. |
-| `SUPABASE_SECRET_KEY` | Clave privada del servidor; no debe usar prefijo `VITE_`. |
+| `SUPABASE_SECRET_KEY` / `SUPABASE_SERVICE_ROLE_KEY` | Clave privada del servidor; se recorta al cargarla y no debe usar prefijo `VITE_`. |
 | `PORT`, `HOST` | Puerto e interfaz de escucha de Express. |
 | `FRONTEND_URL` | Origen adicional admitido por el control de escrituras. |
 | `TRUST_PROXY` | Si vale `1`, Express confía en un proxy. |
