@@ -217,6 +217,9 @@
 .admin-page .dashboard-cards button:hover {
   border-color: #e8a124;
 }
+.admin-page .dashboard-card-settings {
+  display: none;
+}
 /* Tema oscuro: cambia colores y contraste; conserva tamaños y separación. */
 [data-theme="dark"] .admin-page .admin-nav {
   background: linear-gradient(110deg, #253b59, #1e304a);
@@ -252,38 +255,16 @@
     padding: 22px;
   }
 }
-/* Pantallas pequeñas: conserva un menú lateral compacto con sólo el acceso al panel. */
+/* Pantallas pequeñas: el panel de control reemplaza al menú lateral. */
 @media (max-width: 900px) {
   .admin-page .admin-shell {
-    grid-template-columns: max-content minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr);
   }
   .admin-page .admin-nav {
-    width: max-content;
-    max-width: 50vw;
-    display: flex;
-    flex-direction: column;
-    border-right: 0;
-    border-bottom: 0;
-    border-right: 1px solid var(--line);
-    padding: 10px 8px;
-    gap: 6px;
-    overflow: visible;
-  }
-  .admin-page .admin-nav button:not(:first-child) {
     display: none;
   }
-  .admin-page .admin-nav button:first-child {
-    width: max-content;
-    max-width: 100%;
-    white-space: nowrap;
-  }
-  .admin-page .admin-nav button:first-child .xp-icon {
-    width: 26px;
-    height: 26px;
-    flex-basis: 26px;
-  }
-  .admin-page .admin-nav button:last-child {
-    margin-top: 0;
+  .admin-page .dashboard-card-settings {
+    display: flex;
   }
 }
 /* Móvil: reduce espacios interiores sin recortar el texto del acceso visible. */
@@ -329,21 +310,5 @@
   }
   .admin-page .login-form {
     padding: 20px;
-  }
-}
-/* Pantallas muy estrechas: mantiene el botón completo y evita un menú sobredimensionado. */
-@media (max-width: 380px) {
-  .admin-page .admin-nav {
-    max-width: 55vw;
-  }
-  .admin-page .admin-nav button:first-child {
-    padding-inline: 6px;
-    gap: 6px;
-    font-size: 14px;
-  }
-  .admin-page .admin-nav button:first-child .xp-icon {
-    width: 24px;
-    height: 24px;
-    flex-basis: 24px;
   }
 }
