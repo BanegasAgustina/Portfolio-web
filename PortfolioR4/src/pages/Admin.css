@@ -217,6 +217,9 @@
 .admin-page .dashboard-cards button:hover {
   border-color: #e8a124;
 }
+.admin-page .dashboard-card-settings {
+  display: none;
+}
 /* Tema oscuro: cambia colores y contraste; conserva tamaños y separación. */
 [data-theme="dark"] .admin-page .admin-nav {
   background: linear-gradient(110deg, #253b59, #1e304a);
@@ -252,23 +255,19 @@
     padding: 22px;
   }
 }
-/* Tablet: transforma sidebar en una grilla de tres columnas. */
+/* Pantallas pequeñas: el panel de control reemplaza al menú lateral. */
 @media (max-width: 900px) {
   .admin-page .admin-shell {
     grid-template-columns: minmax(0, 1fr);
   }
   .admin-page .admin-nav {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    border-right: 0;
-    border-bottom: 1px solid var(--line);
-    overflow: visible;
+    display: none;
   }
-  .admin-page .admin-nav button:last-child {
-    margin-top: 0;
+  .admin-page .dashboard-card-settings {
+    display: flex;
   }
 }
-/* Móvil: menú en dos columnas y formularios/registros en una columna. */
+/* Móvil: reduce espacios interiores sin recortar el texto del acceso visible. */
 @media (max-width: 640px) {
   .admin-page {
     padding: 20px 12px 48px;
@@ -280,13 +279,12 @@
     font-size: 15px;
   }
   .admin-page .admin-nav {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    padding: 10px;
-    gap: 6px;
+    padding: 8px 6px;
   }
   .admin-page .admin-nav button {
     padding: 10px 8px;
     gap: 8px;
+    font-size: 15px;
   }
   .admin-page .admin-main {
     padding: 18px 14px;
@@ -312,11 +310,5 @@
   }
   .admin-page .login-form {
     padding: 20px;
-  }
-}
-/* Pantallas muy estrechas: menú en una columna para nombres largos. */
-@media (max-width: 380px) {
-  .admin-page .admin-nav {
-    grid-template-columns: minmax(0, 1fr);
   }
 }

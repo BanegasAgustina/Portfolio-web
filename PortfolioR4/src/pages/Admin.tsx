@@ -276,11 +276,13 @@ export default function Admin() {
                   <p>Todo tu contenido, en un solo lugar.</p>
                   <div className="dashboard-cards">
                     {Object.entries(sections)
-                      .filter(
-                        ([key]) => !["dashboard", "settings"].includes(key),
-                      )
+                      .filter(([key]) => key !== "dashboard")
                       .map(([key, label]) => (
-                        <button key={key} onClick={() => navigate(key)}>
+                        <button
+                          key={key}
+                          className={`dashboard-card-${key}`}
+                          onClick={() => navigate(key)}
+                        >
                           <AdminIcon name={key} size={40} />
                           {label}
                         </button>
