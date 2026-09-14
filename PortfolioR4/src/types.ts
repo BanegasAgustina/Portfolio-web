@@ -3,7 +3,7 @@
  * Propósito:
  * Describe los datos que comparten servicios y componentes; no crea tablas ni valida respuestas.
  * RecordData representa un registro flexible; Portfolio agrupa el perfil y las listas públicas.
- * WindowId limita los identificadores admitidos por el administrador de ventanas.
+ * WindowId limita los identificadores admitidos por el administrador de ventanas
  */
 export type RecordData = {
   id?: number;
