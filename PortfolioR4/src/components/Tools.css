@@ -1,4 +1,4 @@
-/* The palette is scoped to the content of Herramientas; window chrome is untouched. */
+/*ESTE CSS ES PARA ESTILIZAR EL NAVEGADOR DE HERRAMIENTAS */
 .workspace .tools-browser {
   --tools-bg: #f4f5ef;
   --tools-card-bg: #ffffff;

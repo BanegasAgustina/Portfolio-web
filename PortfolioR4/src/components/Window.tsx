@@ -91,7 +91,7 @@ export default function Window({
       className={`xp-window ${className} ${position ? "moved" : ""} ${leaving} ${active ? "active" : ""} ${maximized ? "maximized" : ""}`}
     >
       <header
-        className="titlebar"
+        className="titlebar"//ARRASTRE Y MAXIMIZAR/RESTABLECER LA VENTANA
         onPointerDown={(e) => {
           if (
             maximized ||

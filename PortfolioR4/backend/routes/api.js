@@ -19,7 +19,7 @@ import {
   requireAdmin,
 } from "../middleware/adminAuth.js";
 export const api = Router();
-// Multer mantiene el archivo temporalmente en memoria; la ruta validará además sus bytes y tipo MIME.
+// MULTER mantiene el archivo temporalmente en memoria; la ruta validará además sus bytes y tipo MIME.
 const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 5 * 1024 * 1024 } });
 // Lista de tablas aceptadas por el CRUD genérico; profile tiene rutas separadas por ser un registro único.
 const adminTables = [
@@ -87,6 +87,7 @@ api.post("/auth/login", rateLimit({ windowMs: 15 * 60000, limit: 10 }), async (r
     const supabase = getServerSupabase();
     console.log("[LOGIN] 4 querying admins");
     // SELECT obtiene el hash privado del único administrador esperado; nunca devuelve ese hash al navegador.
+    // Supabase no permite filtrar por password_hash, sólo por id; la ruta no confía en el cliente para autenticar.
     const { data: admin, error } = await supabase
       .from("admins")
       .select("id, password_hash")

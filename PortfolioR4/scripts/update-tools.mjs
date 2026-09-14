@@ -11,7 +11,7 @@ const key = process.env.SUPABASE_SECRET_KEY;
 if (!url || !key) {
   throw new Error("Configurá SUPABASE_URL y SUPABASE_SECRET_KEY antes de ejecutar este script.");
 }
-
+// Configura los encabezados de autenticación y tipo de contenido para las solicitudes a la API de Supabase.
 const headers = {
   apikey: key,
   Authorization: `Bearer ${key}`,
@@ -28,7 +28,7 @@ const request = async (path, options = {}) => {
   if (!result.ok)
     throw new Error(`Supabase rechazó ${options.method || "GET"} ${path} (${result.status}).`);
 };
-
+// Mapea cada herramienta a su categoría correspondiente; se usa para actualizar la tabla sin duplicados.
 const categories = new Map([
   ["HTML", "Desarrollo web"], ["CSS", "Desarrollo web"], ["JavaScript", "Desarrollo web"],
   ["TypeScript", "Desarrollo web"], ["React", "Desarrollo web"], ["Node.js", "Desarrollo web"],
@@ -46,6 +46,7 @@ const categories = new Map([
   ["Google Calendar", "Google"], ["Figma", "Diseño"], ["Canva", "Diseño"],
   ["CapCut", "Edición"], ["ChatGPT", "Inteligencia Artificial"], ["Claude", "Inteligencia Artificial"],
 ]);
+// Lista de herramientas a agregar o actualizar; se puede modificar según sea necesario.
 const additions = [
   ["C++", "Lenguaje de programación compilado y orientado a objetos."],
   ["Java", "Lenguaje de programación multiplataforma."],
@@ -95,7 +96,7 @@ for (const [index, [name, description]] of additions.entries()) {
     });
   }
 }
-
+// Actualiza la categoría de cada herramienta según el mapeo definido; elimina Postman si existe.
 for (const row of current) {
   const category = categories.get(String(row.name));
   if (category && normalize(row.name) !== "postman")

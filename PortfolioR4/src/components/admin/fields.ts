@@ -21,26 +21,26 @@ export type Field = {
   options?: string[];
   required?: boolean;
   max?: number;
-};
+};// Campos comunes a varias secciones; se definen una vez para evitar inconsistencias.
 const title: Field = {
     key: "title",
     label: "Título",
     required: true,
     max: 200,
-  },
+  },// La descripción se usa en todas las secciones; es un campo obligatorio.
   description: Field = {
     key: "description",
     label: "Descripción",
     type: "textarea",
     required: true,
     max: 6000,
-  },
+  },// Fecha o período se usa en experiencias y educación; no es un campo obligatorio.
   date: Field = { key: "date", label: "Fecha o período", max: 40 },
   order: Field = {
     key: "display_order",
     label: "Orden (menor primero)",
     type: "number",
-  },
+  },// La organización o institución se usa en experiencias y educación; no es un campo obligatorio.
   organization: Field = {
     key: "organization",
     label: "Empresa / institución",
@@ -53,7 +53,7 @@ export const fields: Record<string, Field[]> = {
   profile: [
     { key: "name", label: "Nombre", required: true, max: 160 },
     { key: "role", label: "Rol profesional", required: true, max: 200 },
-    description,
+    description,// La descripción se usa en todas las secciones; es un campo obligatorio.
     { key: "tagline", label: "Frase personal", max: 240 },
     { key: "location", label: "Ubicación general", max: 200 },
     { key: "avatar", label: "Avatar", type: "image" },
@@ -68,7 +68,7 @@ export const fields: Record<string, Field[]> = {
       label: "Mostrar teléfono públicamente",
       type: "checkbox",
     },
-  ],
+  ],// Cada sección de datos tiene su propio conjunto de campos; el orden define el menú y las tarjetas.
   projects: [
     title,
     description,
@@ -96,7 +96,7 @@ export const fields: Record<string, Field[]> = {
     { key: "demo", label: "URL de la demo", type: "url" },
     { key: "is_featured", label: "Proyecto destacado", type: "checkbox" },
     order,
-  ],
+  ],// Cada sección de datos tiene su propio conjunto de campos; el orden define el menú y las tarjetas.
   skills: [
     {
       key: "name",
@@ -122,7 +122,7 @@ export const fields: Record<string, Field[]> = {
         "Inteligencia Artificial",
         "Soporte técnico",
       ],
-    },
+    },// La descripción se usa en todas las secciones; es un campo obligatorio.
     description,
     { key: "icon", label: "Icono personalizado (opcional)", type: "image" },
     {
@@ -132,7 +132,7 @@ export const fields: Record<string, Field[]> = {
       options: ["", "Básico", "Intermedio", "Avanzado"],
     },
     order,
-  ],
+  ],// Cada sección de datos tiene su propio conjunto de campos; el orden define el menú y las tarjetas.
   experiences: [title, organization, description, date, status, order],
   education: [
     title,

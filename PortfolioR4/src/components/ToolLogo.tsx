@@ -1,7 +1,7 @@
 import { useState } from "react";
 import fallbackIcon from "../assets/img/carpetaherramientas.ico";
 
-// This map resolves artwork only. The tool list and categories always come from skills.
+//ESTE CODIGO ES PARA MOSTRAR EL LOGO DE UNA HERRAMIENTA O TECNOLOGÍA.
 const logos: Record<string, string> = {
   html: "html5",
   html5: "html5",
@@ -73,7 +73,7 @@ export default function ToolLogo({
 }) {
   const [failedSource, setFailedSource] = useState<string>();
   const brand = logos[name.trim().toLowerCase()];
-  // Unknown records may provide a local asset; remote URLs are not loaded at runtime.
+  //ESTO HACE QUE SI EL LOGO DE LA HERRAMIENTA NO SE ENCUENTRA, SE MUESTRE UN ICONO GENERICO.HECHO CON LA CARPETA DE ICONOS DE HERRAMIENTAS, SI NO SE ENCUENTRA EL LOGO, SE MUESTRA UN ICONO GENERICO.
   const localIcon =
     icon?.startsWith("/") && !icon.startsWith("//") && !icon.includes("\\")
       ? icon

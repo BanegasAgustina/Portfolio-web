@@ -3,7 +3,7 @@
  * Propósito:
  * Diálogo nativo que recibe busy, onCancel y onConfirm. No elimina registros por sí mismo.
  * Se abre al montarse; conserva el foco dentro del modal y permite cancelar con Escape si no está ocupado.
- * Admin decide cuándo montarlo y ejecuta la petición DELETE al confirmar.
+ * Admin decide cuándo montarlo y ejecuta la petición DELETE al confirmar.MODAL DE ELIMINAR
  */
 import { useEffect, useRef } from "react";
 // Recibe busy y callbacks; devuelve un modal que delega la decisión al padre.
